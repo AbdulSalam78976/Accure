@@ -1,208 +1,280 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
-import Link from 'next/link';
-import { motion, useInView, Variants } from 'framer-motion';
-import { ArrowUpRight, Users, Award, Layers } from 'lucide-react';
-import { TimelineContent } from '@/components/ui/timeline-animation';
-import { VerticalCutReveal, type VerticalCutRevealRef } from '@/components/ui/vertical-cut-reveal';
+import React, { useEffect, useRef, useState } from 'react';
 
-export default function IntroStats() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const isHeroInView = useInView(heroRef, { once: true, margin: '-100px' });
-  const revealRef = useRef<VerticalCutRevealRef>(null);
+// =========================================
+// TYPESCRIPT INTERFACES
+// =========================================
+interface CounterProps {
+  to: number;
+  suffix?: string;
+  trigger: boolean;
+  duration?: number;
+}
+
+interface StatData {
+  number: number;
+  suffix: string;
+  title: string;
+}
+
+// =========================================
+// ANIMATED COUNTER COMPONENT
+// =========================================
+function Counter({ to, suffix = '', trigger, duration = 1.5 }: CounterProps) {
+  const [count, setCount] = useState<number>(0);
+  const startTimeRef = useRef<number | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (isHeroInView) {
-      revealRef.current?.startAnimation();
+    if (!trigger || count === to) return;
+
+    const startAnimation = (timestamp: number) => {
+      if (!startTimeRef.current) {
+        startTimeRef.current = timestamp;
+      }
+
+      const elapsed = timestamp - startTimeRef.current;
+      const progress = Math.min(elapsed / (duration * 1000), 1);
+
+      // Smooth ease-out deceleration
+      const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+      const currentCount = Math.round(easeOutCubic * to);
+
+      setCount(currentCount);
+
+      if (progress < 1) {
+        animationFrameRef.current = requestAnimationFrame(startAnimation);
+      } else {
+        setCount(to); // Ensure it lands perfectly
+      }
+    };
+
+    animationFrameRef.current = requestAnimationFrame(startAnimation);
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [trigger, to, duration, count]);
+
+  return <span>{count}{suffix}</span>;
+}
+
+// =========================================
+// MAIN COMPONENT
+// =========================================
+export default function AIAdvantageSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [barsAnimated, setBarsAnimated] = useState(false);
+
+  // Individual refs for each horizontal bar
+  const bar1Ref = useRef<HTMLDivElement>(null);
+  const bar2Ref = useRef<HTMLDivElement>(null);
+  const bar3Ref = useRef<HTMLDivElement>(null);
+
+  // Intersection Observer for the brand bars, animate horizontal bars from left to right
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !barsAnimated) {
+            if (bar1Ref.current) bar1Ref.current.style.width = '100%';
+            setTimeout(() => {
+              if (bar2Ref.current) bar2Ref.current.style.width = '100%';
+            }, 200);
+            setTimeout(() => {
+              if (bar3Ref.current) bar3Ref.current.style.width = '100%';
+            }, 400);
+            setBarsAnimated(true);
+          } else if (!entry.isIntersecting) {
+            if (bar1Ref.current) bar1Ref.current.style.width = '0%';
+            if (bar2Ref.current) bar2Ref.current.style.width = '0%';
+            if (bar3Ref.current) bar3Ref.current.style.width = '0%';
+            setBarsAnimated(false);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
     }
-  }, [isHeroInView]);
 
-  const revealVariantsA: Variants = {
-    visible: (i: number) => ({
-      y: 0,
-      opacity: 1,
-      filter: 'blur(0px)',
-      transition: { delay: i * 0.3, duration: 0.7 },
-    }),
-    hidden: { filter: 'blur(10px)', y: 40, opacity: 0 },
-  };
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, [barsAnimated]);
 
-  const revealVariantsB: Variants = {
-    visible: (i: number) => ({
-      y: 0,
-      opacity: 1,
-      filter: 'blur(0px)',
-      transition: { delay: i * 0.3, duration: 0.7 },
-    }),
-    hidden: { filter: 'blur(10px)', y: -40, opacity: 0 },
-  };
+  // Individual triggers for each stat to create scroll reveal effect
+  const statRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [visibleStats, setVisibleStats] = useState<boolean[]>([false, false, false, false]);
 
-  const fadeVariants: Variants = {
-    visible: (i: number) => ({
-      opacity: 1,
-      transition: { delay: i * 0.3, duration: 0.7 },
-    }),
-    hidden: { opacity: 0 },
-  };
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+
+    statRefs.current.forEach((ref, index) => {
+      if (!ref) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setVisibleStats((prev) => {
+                const newState = [...prev];
+                newState[index] = true;
+                return newState;
+              });
+            }
+          });
+        },
+        { threshold: 0.5, rootMargin: '0px 0px -50px 0px' }
+      );
+
+      observer.observe(ref);
+      observers.push(observer);
+    });
+
+    return () => {
+      observers.forEach((observer) => observer.disconnect());
+    };
+  }, []);
+
+  // Data for the 4 stats
+  const stats: StatData[] = [
+    { number: 20, suffix: '+', title: 'Years of continual excellence' },
+    { number: 5, suffix: '+', title: 'Industries we have served with AI-led transformation' },
+    { number: 100, suffix: '+', title: 'Team members across the globe' },
+    { number: 4, suffix: '+', title: 'Countries with our presence and clientele' },
+  ];
 
   return (
-    <section id="about" className="py-24 bg-[#F6EFDD]/92 text-[#1A201B] relative overflow-hidden" ref={heroRef}>
-
-      {/* Decorative Blur Backgrounds */}
-      <TimelineContent
-        className="absolute inset-0 z-0 pointer-events-none"
-        style={{ backgroundImage: 'radial-gradient(125% 125% at 50% 10%, #95c16826 0%, transparent 60%)' }}
-        animationNum={2}
-        customVariants={fadeVariants}
-        timelineRef={heroRef}
-      />
-      <TimelineContent
-        className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#3a4a2e14_1px,transparent_1px),linear-gradient(to_bottom,#3a4a2e14_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_60%,transparent_110%)]"
-        animationNum={3}
-        customVariants={fadeVariants}
-        timelineRef={heroRef}
-      />
-
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-8 relative z-10">
-
-        {/* Heading Block */}
-        <div className="max-w-2xl mx-auto text-center pb-16">
-
-          {/* Bold Prominent Eyebrow */}
-          <span className="block font-bold text-sm sm:text-base uppercase tracking-[0.2em] text-[#3e7220] mb-4">
-            About Us
-          </span>
-
-          {/* Big Title */}
-          <h2 className="font-bold text-4xl sm:text-5xl lg:text-6xl leading-[1.1] text-[#27382B] tracking-tight">
-            <VerticalCutReveal
-              ref={revealRef}
-              autoStart={false}
-              splitBy="words"
-              staggerDuration={0.15}
-              staggerFrom="first"
-              transition={{ type: 'spring', stiffness: 250, damping: 30, delay: 0.1 }}
-              containerClassName="justify-center items-center"
-            >
-              {'An international data management & IT organization'}
-            </VerticalCutReveal>
+    <section id="why-accure" ref={sectionRef} className="w-full bg-white py-12 overflow-hidden relative">
+      <div className="max-w-full mx-auto relative px-6 md:px-12 lg:px-20">
+        {/* ===== HEADER SECTION ===== */}
+        <div className="mb-7 md:mb-8 max-w-2xl">
+          <h2 className="text-[#1A201B] text-4xl md:text-5xl lg:text-[56px] font-medium leading-[1.1] tracking-tight mb-5">
+            From digital change to <br />
+            AI-powered advantage
           </h2>
-
-          {/* Descriptive Text */}
-          <TimelineContent
-            as="p"
-            animationNum={0}
-            customVariants={fadeVariants}
-            timelineRef={heroRef}
-            className="font-normal text-base sm:text-lg lg:text-xl leading-relaxed text-[#5A6A5C] pt-6"
-          >
-            accure helps governments and utilities transform how their systems work together — joining hardware, software, and real-time telemetry across enterprise cloud platforms.{' '}
-            <Link
-              href="#sectors"
-              className="inline-flex items-center gap-1 text-[#27382B] font-semibold underline underline-offset-4 hover:text-[#687D6B] transition-colors group"
-            >
-              Learn more about Accure
-              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </Link>
-          </TimelineContent>
+          <p className="text-[#5A6A5C] text-base md:text-lg leading-relaxed max-w-xl">
+            We help enterprises reimagine how they work, serve, and grow with AI-led transformation that turns complexity into clarity and ambition into measurable progress.
+          </p>
         </div>
-
-        {/* 3 Centered Animated Stats Cards — same reveal treatment as the collage images */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pb-16">
-
-          {/* Card 1 */}
-          <TimelineContent
-            as="div"
-            animationNum={2}
-            customVariants={revealVariantsA}
-            timelineRef={heroRef}
-            className="group relative rounded-3xl bg-white border border-[#687D6B]/15 p-8 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
-          >
-            <div className="flex items-center justify-between mb-6">
-              <div className="p-3 rounded-2xl bg-[#F6F8F5] text-[#27382B] group-hover:bg-[#27382B] group-hover:text-white transition-colors duration-300">
-                <Users className="w-6 h-6" />
-              </div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-[#687D6B] bg-[#687D6B]/10 px-3 py-1 rounded-full">
-                Our Team
-              </span>
-            </div>
-            <div>
-              <div className="font-mono font-bold text-5xl sm:text-6xl text-[#27382B] tracking-tight">
-                100+
-              </div>
-              <p className="font-medium text-sm sm:text-base text-[#5A6A5C] mt-3 leading-relaxed">
-                Experts and professionals in digital transformation, data management, and IT integration.
-              </p>
-            </div>
-          </TimelineContent>
-
-          {/* Card 2 */}
-          <TimelineContent
-            as="div"
-            animationNum={3}
-            customVariants={revealVariantsB}
-            timelineRef={heroRef}
-            className="group relative rounded-3xl bg-white border border-[#687D6B]/15 p-8 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
-          >
-            <div className="flex items-center justify-between mb-6">
-              <div className="p-3 rounded-2xl bg-[#F6F8F5] text-[#27382B] group-hover:bg-[#27382B] group-hover:text-white transition-colors duration-300">
-                <Award className="w-6 h-6" />
-              </div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-[#687D6B] bg-[#687D6B]/10 px-3 py-1 rounded-full">
-                Our Experience
-              </span>
-            </div>
-            <div>
-              <div className="font-mono font-bold text-5xl sm:text-6xl text-[#27382B] tracking-tight">
-                20 yrs+
-              </div>
-              <p className="font-medium text-sm sm:text-base text-[#5A6A5C] mt-3 leading-relaxed">
-                Experience in delivering mission-critical infrastructure programmes for public & private sectors.
-              </p>
-            </div>
-          </TimelineContent>
-
-          {/* Card 3 */}
-          <TimelineContent
-            as="div"
-            animationNum={4}
-            customVariants={revealVariantsA}
-            timelineRef={heroRef}
-            className="group relative rounded-3xl bg-white border border-[#687D6B]/15 p-8 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
-          >
-            <div className="flex items-center justify-between mb-6">
-              <div className="p-3 rounded-2xl bg-[#F6F8F5] text-[#27382B] group-hover:bg-[#27382B] group-hover:text-white transition-colors duration-300">
-                <Layers className="w-6 h-6" />
-              </div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-[#687D6B] bg-[#687D6B]/10 px-3 py-1 rounded-full">
-                Our Practices
-              </span>
-            </div>
-            <div>
-              <div className="font-mono font-bold text-5xl sm:text-6xl text-[#27382B] tracking-tight">
-                5
-              </div>
-              <p className="font-medium text-sm sm:text-base text-[#5A6A5C] mt-3 leading-relaxed">
-                Specialized business units driving innovation across governance, energy, water, environment, and IT.
-              </p>
-            </div>
-          </TimelineContent>
-
-        </div>
-
-        {/* Subtle Gradient Divider */}
-        <motion.div
-          className="relative w-full h-[1px] bg-gradient-to-r from-transparent via-[#687D6B]/30 to-transparent origin-center"
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.9, ease: 'easeOut' }}
-        >
-          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#B99B5B]" />
-        </motion.div>
-
       </div>
-    </section>
+
+      {/* ===== ACCURE BRAND BARS =====
+          Full-bleed strip, breaks out of the container padding and stretches
+          edge to edge of the viewport. Sits in its own row so it never
+          overlaps or dims the stats content below. */}
+      <div className="hidden lg:block relative left-1/2 right-1/2 -mx-[50vw] w-screen mb-10">
+        <div className="flex flex-col gap-3">
+          <div className="w-full h-10 overflow-hidden">
+            <div
+              ref={bar1Ref}
+              className="h-full"
+              style={{
+                width: '0%',
+                background: 'linear-gradient(90deg,#E0EAD2 0%,#C0D2AC 100%)',
+                transitionProperty: 'width',
+                transitionDuration: '1.2s',
+                transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+              }}
+            />
+          </div>
+          <div className="w-full h-10 overflow-hidden">
+            <div
+              ref={bar2Ref}
+              className="h-full"
+              style={{
+                width: '0%',
+                background: 'linear-gradient(90deg,#9DB89A 0%,#7B9E73 100%)',
+                transitionProperty: 'width',
+                transitionDuration: '1.2s',
+                transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+              }}
+            />
+          </div>
+          <div className="w-full h-10 overflow-hidden">
+            <div
+              ref={bar3Ref}
+              className="h-full"
+              style={{
+                width: '0%',
+                background: 'linear-gradient(90deg,#4C6E4F 0%,#2E4B30 100%)',
+                transitionProperty: 'width',
+                transitionDuration: '1.2s',
+                transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+              }}
+            />
+          </div>
+        </div>
+      </div>
+<div className="max-w-full mx-auto relative px-6 md:px-12 lg:px-20">
+  {/* ===== STATS: ONE ROW ON DESKTOP, HORIZONTAL SCROLL ON MOBILE ===== */}
+  <div
+    className="
+      flex justify-start md:justify-center overflow-x-auto gap-8 pb-4
+      snap-x snap-mandatory
+      md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-10 md:overflow-visible md:place-items-center
+      [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]
+      relative
+    "
+  >
+    {/* White fade mask on the right edge, mobile only */}
+    <div className="absolute top-0 right-0 w-12 h-full bg-gradient-to-l from-white to-transparent pointer-events-none z-10 md:hidden" />
+
+    {stats.map((stat: StatData, index: number) => (
+      <div
+        key={index}
+        ref={(el) => {
+          statRefs.current[index] = el;
+        }}
+        className={`
+          flex flex-col min-w-[240px] sm:min-w-[260px] snap-start md:min-w-0 md:snap-none
+          transition-all duration-700 ease-out
+          ${visibleStats[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
+        `}
+        style={{ transitionDelay: `${index * 200}ms` }}
+      >
+        {/* Line Divider with animation */}
+        <div className="w-35 h-[5px] bg-gray-200 mb-5 overflow-hidden relative mx-auto md:mx-0">
+          <div
+            className={`h-full bg-[#4C6E4F] transition-all duration-1000 ease-out ${
+              visibleStats[index] ? 'w-full' : 'w-0'
+            }`}
+          />
+        </div>
+
+        {/* Animated Number */}
+        <div className="font-light  text-[500px] md:text-[80px] leading-none text-[#4C6E4F] mb-4 text-center md:text-center text-center md:text-left">
+          <Counter to={stat.number} suffix={stat.suffix} trigger={visibleStats[index]} duration={1.8} />
+        </div>
+
+        {/* Description Text */}
+        <p className="text-[#1A201B] text-base md:text-lg leading-snug max-w-[220px] text-center md:text-left mx-auto md:mx-0">
+          {stat.title}
+        </p>
+      </div>
+    ))}
+  </div>
+
+  {/* Mobile scroll indicator */}
+  <div className="md:hidden flex justify-center mt-6 gap-2">
+    {stats.map((_, index) => (
+      <div
+        key={index}
+        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+          visibleStats[index] ? 'bg-[#4C6E4F] w-4' : 'bg-gray-300'
+        }`}
+      />
+    ))}
+  </div>
+</div>
+        </section>
   );
 }

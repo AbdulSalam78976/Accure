@@ -1,15 +1,15 @@
-'use client'
+"use client"
 
 import * as React from 'react'
-import { motion, useInView, type Variants } from 'framer-motion'
 
-type ElementTag = keyof typeof motion
+
+type ElementTag = string
 
 interface TimelineContentProps {
   children?: React.ReactNode
   as?: ElementTag
   animationNum: number
-  customVariants: Variants
+  customVariants?: any
   timelineRef: React.RefObject<HTMLElement | null>
   className?: string
   style?: React.CSSProperties
@@ -29,26 +29,11 @@ export function TimelineContent({
   className,
   style,
 }: TimelineContentProps) {
-  const isInView = useInView(timelineRef, { once: true, margin: '-100px' })
-  const MotionComponent = motion[as] as unknown as React.ComponentType<
-    React.ComponentPropsWithoutRef<'div'> & {
-      custom?: number
-      variants?: Variants
-      initial?: string
-      animate?: string
-    }
-  >
-
+  // Animations disabled — render static element
+  const Element: any = as
   return (
-    <MotionComponent
-      custom={animationNum}
-      variants={customVariants}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
-      className={className}
-      style={style}
-    >
+    <Element className={className} style={style}>
       {children}
-    </MotionComponent>
+    </Element>
   )
 }

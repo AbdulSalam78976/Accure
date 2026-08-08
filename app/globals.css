@@ -1,34 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700&family=Poppins:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-poppins: 'Poppins', system-ui, sans-serif;
+  --font-poppins: 'Plus Jakarta Sans', 'Poppins', system-ui, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-manrope: 'Manrope', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
 
-  --color-accure-green: #687D6B;
-  --color-accure-darkgreen: #27382B;
-  --color-accure-lime: #b9dd93;
-  --color-accure-midlime: #95c168;
-  --color-accure-forest: #4f8a2b;
-  --color-accure-dark: #141c0d;
-  --color-accure-subtext: #3a4a2e;
-  --color-accure-subtext2: #5a6a4c;
-  --color-accure-panel: #cfe0e2;
-  --color-accure-cardbg: #eef4ec;
-  --color-accure-footer: #0d1408;
+  --color-accure-green: #7B9E73;
+  --color-accure-darkgreen: #395A3A;
+  --color-accure-lime: #C6D6B4;
+  --color-accure-midlime: #7B9E73;
+  --color-accure-forest: #395A3A;
+  --color-accure-darkest: #2E4B30;
+  --color-accure-dark: #395A3A;
+  --color-accure-subtext: #405B42;
+  --color-accure-subtext2: #6B7F64;
+  --color-accure-panel: #C6D6B4;
+  --color-accure-cardbg: #F3F6EE;
+  --color-accure-footer: #2E4B30;
 
-  --color-brand-dark: #27382B;
-  --color-brand-mid: #687D6B;
-  --color-brand-light: #C6CCC1;
-  --color-hero-dark: #0B120E;
+  --color-brand-dark: #395A3A;
+  --color-brand-mid: #7B9E73;
+  --color-brand-light: #C6D6B4;
+  --color-hero-dark: #2E4B30;
 
-  --color-reading-paper: #F6EFDD;
-  --color-reading-amber: #B99B5B;
+  --color-reading-paper: #F3F6EE;
+  --color-reading-amber: #C6D6B4;
 }
 
 :root {
-  --background: #F6EFDD;
+  --background: white;
   --foreground: #141c0d;
   --secondary: #f3f4f6;
   --muted: #f3f4f6;
@@ -56,7 +58,7 @@ html {
 }
 
 body {
-  background-color: #F6EFDD;
+  background-color: #F3F6EE;
   color: #141c0d;
   font-family: 'Manrope', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -68,27 +70,29 @@ h2,
 h3,
 h4,
 h5,
-h6 {
-  font-family: 'Poppins', sans-serif;
-  letter-spacing: -0.02em;
+h6,
+.font-poppins,
+.font-heading {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  letter-spacing: -0.03em;
 }
 
 /* Custom Utilities for Mockup Arcs */
 .brand-arc-1 {
-  border-top: 66px solid #b9dd93;
-  border-left: 66px solid #b9dd93;
+  border-top: 66px solid #C6D6B4;
+  border-left: 66px solid #C6D6B4;
   border-top-left-radius: 340px;
 }
 
 .brand-arc-2 {
-  border-top: 66px solid #95c168;
-  border-left: 66px solid #95c168;
+  border-top: 66px solid #7B9E73;
+  border-left: 66px solid #7B9E73;
   border-top-left-radius: 270px;
 }
 
 .brand-arc-3 {
-  border-top: 66px solid #4f8a2b;
-  border-left: 66px solid #4f8a2b;
+  border-top: 66px solid #395A3A;
+  border-left: 66px solid #395A3A;
   border-top-left-radius: 190px;
 }
 
@@ -101,17 +105,17 @@ h6 {
 }
 
 .glass-card-dark {
-  background: rgba(13, 20, 8, 0.85);
+  background: rgba(46, 75, 48, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(149, 193, 104, 0.3);
+  border: 1px solid rgba(123, 158, 115, 0.3);
 }
 
 .light-card {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(20, 28, 13, 0.08);
+  border: 1px solid rgba(57, 90, 58, 0.08);
 }
 
 .light-card-hover {
@@ -120,9 +124,9 @@ h6 {
 
 .light-card-hover:hover {
   transform: translateY(-4px);
-  border-color: rgba(104, 125, 107, 0.35);
+  border-color: rgba(123, 158, 115, 0.35);
   background: #ffffff;
-  box-shadow: 0 12px 30px -12px rgba(20, 28, 13, 0.15);
+  box-shadow: 0 12px 30px -12px rgba(57, 90, 58, 0.15);
 }
 
 /* Logo Marquee */
@@ -159,14 +163,14 @@ h6 {
 }
 
 ::-webkit-scrollbar-track {
-  background: #F6EFDD;
+  background: #F3F6EE;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #687D6B;
+  background: #7B9E73;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #27382B;
+  background: #395A3A;
 }

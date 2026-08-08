@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from "react"
-import { AnimationOptions, motion } from "framer-motion"
+import { AnimationOptions } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 interface TextProps {
@@ -130,23 +130,7 @@ const VerticalCutReveal = forwardRef<VerticalCutRevealRef, TextProps>(
       reset: () => setIsAnimating(false),
     }))
 
-    useEffect(() => {
-      if (autoStart) {
-        startAnimation()
-      }
-    }, [autoStart])
-
-    const variants = {
-      hidden: { y: reverse ? "-100%" : "100%" },
-      visible: (i: number) => ({
-        y: 0,
-        transition: {
-          ...transition,
-          delay: ((transition?.delay as number) || 0) + getStaggerDelay(i),
-        },
-      }),
-    }
-
+    // Render static characters without motion animations
     return (
       <span
         className={cn(
@@ -166,46 +150,16 @@ const VerticalCutReveal = forwardRef<VerticalCutRevealRef, TextProps>(
               characters: [el],
               needsSpace: i !== elements.length - 1,
             }))
-        ).map((wordObj, wordIndex, array) => {
-          const previousCharsCount = array
-            .slice(0, wordIndex)
-            .reduce((sum, word) => sum + word.characters.length, 0)
-
-          return (
-            <span
-              key={wordIndex}
-              aria-hidden="true"
-              className={cn("inline-flex overflow-hidden", wordLevelClassName)}
-            >
-              {wordObj.characters.map((char, charIndex) => (
-                <span
-                  className={cn(
-                    elementLevelClassName,
-                    "whitespace-pre-wrap relative"
-                  )}
-                  key={charIndex}
-                >
-                  <motion.span
-                    custom={previousCharsCount + charIndex}
-                    initial="hidden"
-                    animate={isAnimating ? "visible" : "hidden"}
-                    variants={variants}
-                    onAnimationComplete={
-                      wordIndex === elements.length - 1 &&
-                      charIndex === wordObj.characters.length - 1
-                        ? onComplete
-                        : undefined
-                    }
-                    className="inline-block"
-                  >
-                    {char}
-                  </motion.span>
-                </span>
-              ))}
-              {wordObj.needsSpace && <span> </span>}
-            </span>
-          )
-        })}
+        ).map((wordObj, wordIndex, array) => (
+          <span key={wordIndex} aria-hidden="true" className={cn("inline-flex", wordLevelClassName)}>
+            {wordObj.characters.map((char, charIndex) => (
+              <span key={charIndex} className={cn(elementLevelClassName, "whitespace-pre-wrap relative inline-block")}>
+                {char}
+              </span>
+            ))}
+            {wordObj.needsSpace && <span> </span>}
+          </span>
+        ))}
       </span>
     )
   }

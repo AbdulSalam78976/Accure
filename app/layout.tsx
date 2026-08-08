@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import VantaBackground from "@/components/VantaBackground";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "accure III — Enterprise System Integration Platform",
+  title: "accure",
   description: "Unify Infrastructure, Governance & Utilities with real-time AI orchestration and API-first integration.",
 };
 
@@ -28,8 +27,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#F6EFDD] text-[#141c0d]">
-        <VantaBackground />
+      <body className="min-h-full flex flex-col bg-[#F3F6EE] text-[#141c0d]">
         {children}
       </body>
     </html>

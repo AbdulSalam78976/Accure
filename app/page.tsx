@@ -2,12 +2,11 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import IntroStats from '@/components/About';
-import DomainTabs from '@/components/DomainTabs';
+import Sectors from '@/components/Sectors';
 import ServicesSection from '@/components/ServicesSection';
-import WhyAccureSection from '@/components/WhyAccureSection';
-import NewsSection from '@/components/NewsSection';
-import ContactUs from '@/components/ContactUs';
+import HotSection from '@/components/HotSection';
 import Footer from '@/components/Footer';
+import SecuritySection from '@/components/SecuritySection';
 
 
 export const metadata = {
@@ -17,7 +16,7 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#F6EFDD] text-[#141c0d] font-manrope selection:bg-[#687D6B] selection:text-white">
+    <main className="min-h-screen bg-white text-[#141c0d] font-manrope selection:bg-[#7B9E73] selection:text-white">
       {/* Sticky Header Navigation */}
       <Navbar />
 
@@ -29,22 +28,20 @@ export default function Home() {
       <IntroStats />
 
       {/* Interactive Sector Solutions */}
-      <DomainTabs />
+      <Sectors />
 
-      {/* Our Services */}
+      {/* Services Overview Section */}
       <ServicesSection />
 
-      {/* Why accure / Shift Section */}
-      <WhyAccureSection />
+   <SecuritySection />
 
       {/* News & Insights */}
-      <NewsSection />
+      <HotSection />
 
-      {/* Contact CTA */}
-      <ContactUs />
+      
 
       {/* Footer */}
-      <Footer />
+     <Footer showConsultationSection={true} />
     </main>
   );
 }

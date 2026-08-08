@@ -5,6 +5,9 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 
 interface HorizontalScrollPinProps {
   children: React.ReactNode;
+  /** Rendered inside the pinned viewport above the track — stays fully visible
+   *  and does not translate horizontally, unlike `children`. */
+  header?: React.ReactNode;
   className?: string;
   trackClassName?: string;
 }
@@ -24,6 +27,7 @@ const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffec
  */
 export default function HorizontalScrollPin({
   children,
+  header,
   className = '',
   trackClassName = '',
 }: HorizontalScrollPinProps) {
@@ -84,6 +88,7 @@ export default function HorizontalScrollPin({
       style={{ height: containerHeight ?? undefined }}
     >
       <div ref={stickyRef} className="sticky top-0 overflow-hidden py-10">
+        {header}
         <motion.div ref={trackRef} style={{ x, willChange: 'transform' }} className={`flex w-max ${trackClassName}`}>
           {children}
         </motion.div>
