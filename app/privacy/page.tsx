@@ -23,15 +23,17 @@ const sections: PolicySection[] = [
     body: (
       <>
         <p>
-          [Your Company Name] (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) provides digital
+          <strong>Accure Systems Ltd</strong> (&ldquo;Accure,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) provides digital
           governance, IT infrastructure, smart energy, hydromet, and environmental management
-          solutions to public and private sector clients. This Privacy Policy explains how we
-          collect, use, disclose, and safeguard information when you visit our website, use our
-          products, or otherwise interact with us.
+          solutions to public and private sector clients across the UAE, Saudi Arabia, Qatar,
+          Egypt, South Africa, Kenya, the United Kingdom, and Pakistan. This Privacy Policy explains how we
+          collect, use, disclose, and safeguard information when you visit our website at{' '}
+          <strong>accure.com</strong>, use our products, or otherwise interact with us.
         </p>
         <p>
           By using our website or services, you agree to the practices described in this policy.
-          If you do not agree, please do not use our website or services.
+          If you do not agree, please do not use our website or services. This policy was last
+          updated on <strong>1 August 2025</strong>.
         </p>
       </>
     ),
@@ -108,8 +110,10 @@ const sections: PolicySection[] = [
           through your browser settings; disabling some cookies may affect site functionality.
         </p>
         <p>
-          [List specific cookie categories/providers here, e.g. essential, analytics, and any
-          third-party tools you use such as analytics or chat widgets.]
+          We use essential cookies to keep the site functioning, and analytics cookies to
+          understand aggregate usage patterns and improve our content. We do not use advertising
+          or retargeting cookies. You may disable non-essential cookies through your browser
+          settings without affecting core site functionality.
         </p>
       </>
     ),
@@ -161,10 +165,12 @@ const sections: PolicySection[] = [
     body: (
       <>
         <p>
-          We retain personal information for as long as necessary to fulfill the purposes
+          We retain personal information for as long as necessary to fulfil the purposes
           described in this policy, unless a longer retention period is required or permitted by
-          law, such as for tax, legal, accounting, or reporting requirements. [Specify concrete
-          retention periods per data category if available.]
+          law. Contact form submissions are retained for up to 24 months. Website usage data is
+          retained for up to 14 months. Data processed under a Client Agreement is retained per
+          the terms of that agreement, typically for the duration of the project plus 7 years
+          for audit and compliance purposes.
         </p>
       </>
     ),
@@ -241,15 +247,24 @@ const sections: PolicySection[] = [
     body: (
       <>
         <p>
-          If you have questions about this Privacy Policy or how we handle your information,
-          contact us at:
+          If you have questions about this Privacy Policy or how Accure handles your information,
+          please contact us through any of the following:
         </p>
-        <p className="not-italic">
-          [Your Company Name]
-          <br />
-          [Registered address]
-          <br />
-          Email: privacy@yourcompany.com
+        <ul>
+          <li>
+            <strong>Website:</strong>{' '}
+            <a href="/contact" className="text-[#395A3A] underline underline-offset-2">
+              accure.com/contact
+            </a>
+          </li>
+          <li><strong>Email:</strong> privacy@accure.com</li>
+          <li><strong>UAE Office:</strong> Dubai, United Arab Emirates</li>
+          <li><strong>UK Office:</strong> London, United Kingdom</li>
+          <li><strong>Pakistan Office:</strong> Islamabad, Pakistan</li>
+        </ul>
+        <p>
+          For data security incidents related to an active infrastructure project, please contact
+          your designated Accure project manager directly.
         </p>
       </>
     ),
@@ -377,12 +392,16 @@ export default function PrivacyPolicyPage() {
           </div>
 
           <div className="relative z-10 w-full max-w-full mx-auto pt-16 md:pt-24">
+            <p className="text-[#C6D6B4] text-sm font-semibold uppercase tracking-[0.25em] mb-4">
+              Legal
+            </p>
             <h2 className="text-white font-poppins text-5xl md:text-6xl font-medium tracking-tight mb-6 max-w-3xl leading-[1.1]">
               Privacy Policy
             </h2>
             <p className="text-white/70 text-base md:text-lg max-w-2xl leading-relaxed">
-              How we collect, use, and protect information across our website and services.
+              How Accure collects, uses, and protects information across our website and services.
             </p>
+            <p className="text-white/40 text-sm mt-4">Last updated: 1 August 2025</p>
           </div>
         </section>
 
@@ -423,10 +442,10 @@ export default function PrivacyPolicyPage() {
               <div className="bg-white border border-[#141c0d]/10 shadow-[0_1px_3px_rgba(20,28,13,0.06)] p-8 md:p-12">
                 <div className="mb-10 pb-8 border-b-2 border-[#141c0d]/10">
                   <p className="text-sm md:text-base text-[#4f564b] leading-relaxed">
-                    This policy describes how [Your Company Name] handles personal information. It
-                    is a general template and should be reviewed by qualified legal counsel before
-                    publication to ensure it reflects your actual data practices and applicable
-                    law in every jurisdiction where you operate.
+                    This policy describes how Accure Systems Ltd handles personal information
+                    collected through our website and during client engagements. For active
+                    project engagements, data processing obligations are also governed by your
+                    signed Client Agreement.
                   </p>
                 </div>
 

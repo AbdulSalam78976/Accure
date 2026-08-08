@@ -2,30 +2,27 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SectorDetailHero from '@/components/SectorDetailHero';
+import SectorAccordion from '@/components/SectorAccordion';
 import { sectors, getSectorById } from '@/lib/sectors-data';
 
 interface PageProps {
-  params: Promise<{
-    slug: string;
-  }>;
+  params: Promise<{ slug: string }>;
 }
 
 export function generateStaticParams() {
-  return sectors.map((sector) => ({ slug: sector.id }));
+  return sectors.map((s) => ({ slug: s.id }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const sector = getSectorById(slug);
-  if (!sector) {
-    return { title: 'Sector not found | accure' };
-  }
+  if (!sector) return { title: 'Sector not found | Accure' };
   return {
-    title: `${sector.title} | accure`,
+    title: `${sector.title} | Accure`,
     description: sector.description,
   };
 }
@@ -35,89 +32,158 @@ export default async function SectorDetailPage({ params }: PageProps) {
   const sector = getSectorById(slug);
   if (!sector) notFound();
 
-  const related = sectors.filter((s) => s.id !== sector.id);
-
   return (
-    <div className="min-h-screen bg-white font-manrope text-[#141c0d]">
+    <div className="min-h-screen bg-[#F3F6EE] font-manrope text-[#141c0d]">
       <Navbar />
-      <SectorDetailHero id={sector.id} title={sector.title} description={sector.description} accent={sector.accent} image={sector.image} />
 
-      {/* ===== WHAT WE DELIVER ===== */}
+      {/* ══════════════════════════════════════════════════════════════════
+          1. HERO — full-bleed image
+      ══════════════════════════════════════════════════════════════════ */}
+      <SectorDetailHero
+        id={sector.id}
+        title={sector.title}
+        description={sector.description}
+        accent={sector.accent}
+        image={sector.image}
+      />
+
+      {/* ══════════════════════════════════════════════════════════════════
+          2. INTRO SPLIT — image left / editorial text right
+      ══════════════════════════════════════════════════════════════════ */}
       <section className="w-full bg-white py-20 px-6 md:px-12 lg:px-20">
-        <div className="max-w-full mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div className="relative min-h-[420px] overflow-hidden group">
+        <div className="grid lg:grid-cols-2 gap-0 items-stretch">
+
+          {/* Image panel */}
+          <div className="relative min-h-[420px] lg:min-h-[540px] overflow-hidden">
             <Image
               src={sector.image}
               alt={sector.title}
               fill
-              priority
-              className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0B120E]/60 via-transparent to-transparent pointer-events-none" />
-            <div className="absolute bottom-0 left-0 h-1.5 w-full" style={{ background: sector.accent }} />
+            {/* bottom accent stripe */}
+            <div className="absolute bottom-0 left-0 right-0 h-1" style={{ background: sector.accent }} />
           </div>
 
-          <div>
-            <p className="text-xs font-bold tracking-[0.15em] uppercase" style={{ color: sector.accent }}>
-              What we deliver
-            </p>
-            <h2 className="mt-3 text-3xl md:text-4xl font-poppins font-bold tracking-tight text-[#141c0d] leading-tight">
-              Solutions built for {sector.title}
-            </h2>
-            <p className="mt-4 text-base leading-7 text-[#4f564b]">
-              {sector.description}
-            </p>
-
-            <ul className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
-              {sector.checklist.map((item) => (
-                <li key={item} className="flex items-start gap-2.5 text-sm leading-6">
-                  <CheckCircle
-                    className="mt-0.5 h-4 w-4 shrink-0"
-                    style={{ color: sector.accent }}
-                    strokeWidth={2}
-                  />
-                  <span className="text-[#333333]">{item}</span>
-                </li>
-              ))}
-            </ul>
-
-            <Link
-              href="/contact"
-              className="group mt-10 inline-flex items-center gap-2 px-6 py-3.5 bg-[#395A3A] hover:bg-[#2E4B30] text-white font-semibold transition-colors duration-300"
+          {/* Text panel */}
+          <div className="flex flex-col justify-center px-0 lg:pl-16 pt-12 lg:pt-0">
+            <p
+              className="text-xs font-bold uppercase tracking-[0.22em] mb-4"
+              style={{ color: sector.accent }}
             >
-              <span>Talk to our team</span>
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
+              Pioneering ideas for the intelligent use of {sector.title.toLowerCase()}
+            </p>
+
+            <h2 className="font-poppins font-bold text-3xl md:text-4xl text-[#141c0d] tracking-tight leading-[1.15] mb-6 max-w-lg">
+              Delivering outcomes that matter for {sector.title}
+            </h2>
+
+            <p className="text-[#4f564b] text-[15px] leading-7 mb-4 max-w-lg">
+              {sector.description} Our team brings 20+ years of cross-sector integration experience to every engagement — combining deep domain knowledge with proven delivery methodology.
+            </p>
+
+            <p className="text-[#4f564b] text-[15px] leading-7 mb-10 max-w-lg">
+              We work alongside government agencies, utilities, and enterprise clients to design systems that are secure, scalable, and built to last — from initial scoping through to go-live and managed support.
+            </p>
+
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href="/contact"
+                className="group inline-flex items-center gap-3 px-8 py-4 text-sm font-bold uppercase tracking-[0.1em] text-white transition-all duration-300 hover:opacity-90"
+                style={{ background: sector.accent }}
+              >
+                Start a project
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ===== RELATED SECTORS ===== */}
-      <section className="w-full bg-[#141c0d] py-20 px-6 md:px-12 lg:px-20">
+      {/* ══════════════════════════════════════════════════════════════════
+          3. OUR EXPERTISE — accordion
+      ══════════════════════════════════════════════════════════════════ */}
+      <section className="w-full bg-[#F3F6EE] py-20 px-6 md:px-12 lg:px-20">
         <div className="max-w-full mx-auto">
-          <h2 className="text-white font-poppins text-3xl md:text-4xl font-bold tracking-tight mb-12">
-            Explore other sectors
+          <p
+            className="text-xs font-bold uppercase tracking-[0.22em] mb-3"
+            style={{ color: sector.accent }}
+          >
+            Our expertise
+          </p>
+          <h2 className="font-poppins font-bold text-3xl md:text-4xl text-[#141c0d] tracking-tight mb-12 max-w-xl">
+            Our expertise in the {sector.title.toLowerCase().split('&')[0].trim()} sector
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {related.map((s) => (
-              <Link
-                key={s.id}
-                href={s.href}
-                className="group relative overflow-hidden bg-white/[0.04] border border-white/10 p-6 hover:bg-white/[0.08] hover:border-white/20 transition-all duration-300"
+          <SectorAccordion items={sector.checklist} accent={sector.accent} descriptions={sector.checklistDescriptions} />
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════
+          4. PRODUCTS & SERVICES CARDS
+      ══════════════════════════════════════════════════════════════════ */}
+      <section className="w-full bg-white py-20 px-6 md:px-12 lg:px-20">
+        <div className="max-w-full mx-auto">
+          <p
+            className="text-xs font-bold uppercase tracking-[0.22em] mb-3"
+            style={{ color: sector.accent }}
+          >
+            Products &amp; services
+          </p>
+          <h2 className="font-poppins font-bold text-3xl md:text-4xl text-[#141c0d] tracking-tight mb-12">
+            What we offer
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {sector.services.map((service) => (
+              <div
+                key={service.title}
+                className="group relative flex flex-col bg-[#F3F6EE] border border-[#141c0d]/8 p-8 hover:shadow-[0_16px_40px_-16px_rgba(57,90,58,0.18)] hover:border-[#7B9E73]/40 transition-all duration-300"
               >
-                <div className="absolute top-0 left-0 h-[3px] w-full opacity-40 group-hover:opacity-100 transition-opacity duration-300" style={{ background: s.accent }} />
-                <s.icon className="w-8 h-8 mb-6 text-[#C6D6B4]" strokeWidth={1.5} />
-                <h3 className="text-white font-poppins font-bold text-lg leading-snug">
-                  {s.title}
+                <div
+                  className="absolute top-0 left-0 h-[3px] w-0 group-hover:w-full transition-all duration-500"
+                  style={{ background: sector.accent }}
+                />
+                <div
+                  className="w-12 h-12 flex items-center justify-center mb-6 text-2xl"
+                  style={{ background: sector.accent + '18' }}
+                >
+                  <span style={{ color: sector.accent }}>{service.icon}</span>
+                </div>
+                <h3 className="font-poppins font-bold text-[#141c0d] text-xl mb-3 leading-snug">
+                  {service.title}
                 </h3>
-                <span className="mt-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#7B9E73]">
-                  Learn more
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </span>
-              </Link>
+                <p className="text-sm leading-relaxed text-[#4f564b]">
+                  {service.description}
+                </p>
+              </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════
+          5. IMAGE GALLERY STRIP
+      ══════════════════════════════════════════════════════════════════ */}
+      <section className="w-full bg-[#0B120E]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px">
+          {sector.galleryImages.map((img, i) => (
+            <div key={i} className="relative h-64 md:h-80 overflow-hidden group">
+              <Image
+                src={img.src}
+                alt={img.alt}
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-[#0B120E]/40 group-hover:bg-[#0B120E]/20 transition-colors duration-500" />
+              {img.caption && (
+                <div className="absolute bottom-0 left-0 right-0 px-6 py-4">
+                  <p className="text-white/80 text-xs font-medium uppercase tracking-[0.15em]">{img.caption}</p>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </section>
 

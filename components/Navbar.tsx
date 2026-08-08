@@ -20,7 +20,6 @@ const capabilityLinks = [
   { label: 'Data and Analytics', href: '/capabilities#analytics' },
   { label: 'IoT & Telemetry', href: '/capabilities#iot' },
   { label: 'Compliance & Security', href: '/capabilities#security' },
-  { label: '24/7 Managed Support', href: '/capabilities#support' },
 ];
 
 export default function Navbar() {
@@ -111,7 +110,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Navigation Floating Pill Bar */}
-        <div className="hidden md:flex items-center gap-1 bg-[#0B120E]/40 backdrop-blur-xl border border-white/15 pl-6 pr-2 py-1.5  shadow-2xl">
+        <div className="hidden md:flex items-center gap-1 bg-[#0B120E]/40 backdrop-blur-xl  pl-6 pr-2 py-1.5  shadow-2xl">
           <nav className="flex items-center gap-6 font-medium text-sm text-white/90 mr-2">
 
             {/* HOME LINK */}

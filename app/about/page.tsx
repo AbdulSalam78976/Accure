@@ -260,7 +260,7 @@ export default function AboutPage() {
             </div>
 
             {/* --- VALUES GRID SECTION (ORIGINAL DIVIDED LAYOUT WITH BRAND COLORS) --- */}
-            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/10 border-t border-white/10 md:border-t-0">
+            <div className="grid grid-cols-1 md:grid-cols-3 divide-x md:divide-y-0 md:divide-x divide-white  border-t border-white/10 md:border-t-0">
               {/* Value 1: Integrity */}
               <div className="py-8 md:py-0 md:pr-10 md:pl-0 pl-0 first:pt-0 last:pb-0">
                 <h3 className="text-[#95c168] text-2xl font-semibold mb-4 font-poppins">Integrity</h3>
