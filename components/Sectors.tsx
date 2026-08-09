@@ -42,7 +42,7 @@ const domainData: IndustryData[] = [
   {
     id: 'smart-energy',
     title: 'Smart Energy & Smart Grid',
-    image: '/images/smartgrid.jpg',
+    image: '/images/smart-grid.png',
     href: '/sectors/smart-energy',
     icon: Zap,
   },

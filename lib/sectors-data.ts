@@ -172,7 +172,7 @@ export const sectors: SectorData[] = [
       'We help utilities and energy operators gain visibility and resilience through analytics, control systems, and connected field devices.',
     icon: Zap,
     image: '/images/envoirnment.jpg',
-    introImage: '/images/SmartGrid1.jpg',
+    introImage: '/images/SmartGrid.jpg',
     introHeading: 'Connecting the grid — from generation to the consumer',
     introBody: [
       'Energy systems are undergoing their most significant structural change in a century. Distributed generation, battery storage, and real-time demand response are replacing the centralised, predictable model that grid operators have managed for decades. Accure helps utilities and system operators build the digital infrastructure to manage this complexity — integrating IoT telemetry, AI-driven analytics, and modern SCADA platforms into coherent operational systems.',
