@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, MapPin } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 const coreValues = [
@@ -45,70 +45,10 @@ const systemsWay = [
 ];
 
 const locations = [
-  {
-    region: 'Middle East',
-    image: '/images/UAE.png',
-    offices: [
-      { city: 'Dubai, UAE', address: 'Dubai Hills Business Park, Building 4' },
-      { city: 'Doha, Qatar', address: 'Palm Towers, Floor 41, Westbay' },
-      { city: 'Riyadh, KSA', address: 'King Fahd Road, Olaya District' },
-    ],
-  },
-  {
-    region: 'South Asia',
-    image: '/images/PAK.png',
-    offices: [
-      { city: 'Islamabad, Pakistan', address: 'Blue Area, Jinnah Avenue' },
-      { city: 'Karachi, Pakistan', address: 'Clifton Block 5, Sea View' },
-    ],
-  },
-  {
-    region: 'Europe',
-    image: '/images/UK.png',
-    offices: [
-      { city: 'London, UK', address: '30 St Mary Axe, EC3A 8BF' },
-    ],
-  },
-  {
-    region: 'Americas',
-    image: '/images/USA.png',
-    offices: [
-      { city: 'Washington D.C., USA', address: '1701 Pennsylvania Ave NW' },
-    ],
-  },
-];
-
-const masonryImages = [
-  {
-    src: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800',
-    alt: 'Team at whiteboard',
-    aspect: 'aspect-[4/3]',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800',
-    alt: 'Professional with laptop',
-    aspect: 'aspect-[3/4]',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800',
-    alt: 'Team workshop',
-    aspect: 'aspect-[3/4]',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=800',
-    alt: 'Woman at glass wall',
-    aspect: 'aspect-[3/4]',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=800',
-    alt: 'Colleagues in discussion',
-    aspect: 'aspect-[4/3]',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=800',
-    alt: 'Team collaborating',
-    aspect: 'aspect-[4/3]',
-  },
+  { region: 'USA', image: '/images/USA.png' },
+  { region: 'UK',  image: '/images/UK.png'  },
+  { region: 'UAE', image: '/images/UAE.png' },
+  { region: 'PAK', image: '/images/PAK.png' },
 ];
 
 // ─── PAGE ─────────────────────────────────────────────────────────────────────
@@ -260,125 +200,120 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ══════════════════════════════════════════════════════
-            COLLABORATIVE — masonry photo grid
-        ══════════════════════════════════════════════════════ */}
-        <section className="w-full bg-white py-16 md:py-20 px-6 md:px-12 lg:px-20">
-          <div className="max-w-full mx-auto">
-            {/* Heading */}
-            <div className="mb-12">
-              <h4 className="text-[#95c168] font-semibold tracking-widest text-xl uppercase mb-4">
-                Our People
-              </h4>
-              <h2 className="text-[#141c0d] text-[24px] sm:text-3xl md:text-4xl lg:text-5xl leading-tight font-medium max-w-3xl font-poppins">
+        {/* COLLABORATIVE INNOVATION MASONRY SECTION */}
+        <section className="w-full bg-white py-10 md:py-14 px-2 sm:px-4 md:px-8 lg:px-12 overflow-hidden">
+          <div className="max-w-[1500px] mx-auto">
+            {/* CENTER TOP HEADING */}
+            <div className="text-center max-w-2xl mx-auto px-4">
+              <h2 className="text-[#395A3A] text-[22px] sm:text-3xl lg:text-4xl leading-snug font-medium">
                 Achieving sustainable progress through collaborative innovation and shared expertise
               </h2>
             </div>
 
-            {/* Photo grid — 2 cols on mobile, 3 on md */}
-            <div className="columns-2 md:columns-3 gap-4 md:gap-5 space-y-4 md:space-y-5">
-              {masonryImages.map(({ src, alt, aspect }) => (
-                <div key={src} className={`relative overflow-hidden break-inside-avoid rounded-lg ${aspect} w-full`}>
+            {/* MASONRY GRID - 5 COLUMNS */}
+            <div className="grid grid-cols-5 gap-1.5 sm:gap-4 md:gap-5 items-end">
+              {/* COLUMN 1 */}
+              <div className="flex flex-col gap-1.5 sm:gap-4 md:gap-5">
+                <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[16/10] w-full">
                   <img
-                    src={src}
-                    alt={alt}
+                    src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=600"
+                    alt="Team pointing at whiteboard"
                     className="w-full h-full object-cover"
-                    loading="lazy"
                   />
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ══════════════════════════════════════════════════════
-            GLOBAL PRESENCE — location cards
-        ══════════════════════════════════════════════════════ */}
-        <section className="w-full bg-[#F3F6EE] py-16 md:py-20 px-6 md:px-12 lg:px-20">
-          <div className="max-w-full mx-auto">
-            {/* Heading */}
-            <div className="mb-12">
-              <h4 className="text-[#95c168] font-semibold tracking-widest text-xl uppercase mb-4">
-                Global Presence
-              </h4>
-              <h2 className="text-[#141c0d] text-[24px] sm:text-3xl md:text-4xl lg:text-5xl leading-tight font-medium max-w-2xl font-poppins">
-                Delivering across four continents
-              </h2>
-            </div>
-
-            {/* 4-col on lg, 2-col on sm, 1-col on xs */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {locations.map(({ region, image, offices }) => (
-                <div
-                  key={region}
-                  className="bg-white border border-[#141c0d]/8 flex flex-col overflow-hidden group hover:border-[#2E4B30]/30 transition-colors duration-200"
-                >
-                  {/* Map image */}
-                  <div className="relative w-full aspect-[4/3] bg-[#F3F6EE] overflow-hidden">
-                    <Image
-                      src={image}
-                      alt={region}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-contain p-4"
-                    />
-                  </div>
-
-                  {/* Office list */}
-                  <div className="p-6 flex flex-col gap-4 flex-1">
-                    <h3 className="font-poppins font-semibold text-sm uppercase tracking-widest text-[#95c168]">
-                      {region}
-                    </h3>
-                    {offices.map(({ city, address }) => (
-                      <div key={city} className="flex items-start gap-2.5">
-                        <MapPin className="w-3.5 h-3.5 text-[#2E4B30] shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-[#141c0d] text-sm font-semibold leading-snug">{city}</p>
-                          <p className="text-[#4f564b] text-xs leading-relaxed mt-0.5">{address}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[3/4] w-full">
+                  <img
+                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600"
+                    alt="Professional woman with laptop"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-0 left-0 w-full h-8 sm:h-24 bg-gradient-to-t from-white to-transparent"></div>
                 </div>
-              ))}
+              </div>
+
+              {/* COLUMN 2 */}
+              <div className="flex flex-col gap-1.5 sm:gap-4 md:gap-5">
+                <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[3/5] w-full">
+                  <img
+                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=600"
+                    alt="Team workshop"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* COLUMN 3 */}
+              <div className="flex flex-col gap-1.5 sm:gap-4 md:gap-5">
+                <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[3/4] w-full">
+                  <img
+                    src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=600"
+                    alt="Woman writing on glass"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-0 left-0 w-full h-6 sm:h-16 bg-gradient-to-b from-white to-transparent"></div>
+                  <div className="absolute bottom-0 left-0 w-full h-6 sm:h-16 bg-gradient-to-t from-white to-transparent"></div>
+                </div>
+              </div>
+
+              {/* COLUMN 4 */}
+              <div className="flex flex-col gap-1.5 sm:gap-4 md:gap-5">
+                <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[3/5] w-full">
+                  <img
+                    src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=600"
+                    alt="Colleagues discussing"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-0 left-0 w-full h-6 sm:h-16 bg-gradient-to-t from-white to-transparent"></div>
+                </div>
+              </div>
+
+              {/* COLUMN 5 */}
+              <div className="flex flex-col gap-1.5 sm:gap-4 md:gap-5">
+                <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[3/4] w-full">
+                  <img
+                    src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=600"
+                    alt="Woman at laptop"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[16/10] w-full">
+                  <img
+                    src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=600"
+                    alt="Team collaborating"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-0 left-0 w-full h-6 sm:h-16 bg-gradient-to-t from-white to-transparent"></div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
         {/* ══════════════════════════════════════════════════════
-            CTA
+            GLOBAL PRESENCE — original map images grid
         ══════════════════════════════════════════════════════ */}
-        <section className="bg-[#0B120E] px-6 md:px-12 lg:px-20 py-16 md:py-20">
-          <div className="max-w-full mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-            <div className="max-w-xl">
-              <h4 className="text-[#95c168] font-semibold tracking-widest text-xl uppercase mb-4">
-                Work With Us
-              </h4>
-              <h2 className="text-white font-poppins font-medium text-[24px] sm:text-3xl md:text-4xl leading-snug mb-3">
-                Ready to engineer resilience into your operations?
-              </h2>
-              <p className="text-white/60 text-base leading-relaxed">
-                Let's explore how Accure's integration expertise can accelerate your digital transformation.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-              <Link
-                href="/contact"
-                className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#2E4B30] hover:bg-[#a6d278] hover:text-[#141c0d] text-white font-poppins font-semibold text-sm uppercase tracking-wider transition-all duration-300"
-              >
-                Start a conversation
-                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-              <Link
-                href="/capabilities"
-                className="group inline-flex items-center justify-center gap-3 px-8 py-4 border border-white/30 hover:border-white text-white font-poppins font-semibold text-sm uppercase tracking-wider transition-all duration-300 hover:bg-white/5"
-              >
-                Our capabilities
-                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
+        <section className="w-full bg-[#F3F6EE] pt-20 px-6 md:px-12 lg:px-20">
+          <div className="max-w-full mx-auto">
+            <h2 className="text-3xl md:text-5xl font-medium font-poppins text-[#141c0d] mb-12">
+              Our Global Presence
+            </h2>
+
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {locations.map((region, index) => (
+                <Image
+                  key={index}
+                  src={region.image}
+                  alt={region.region}
+                  width={220}
+                  height={220}
+                  className="w-full h-auto object-contain border-[2px] border-gray-200"
+                />
+              ))}
             </div>
           </div>
         </section>
+
+       
       </div>
 
       <Footer showConsultationSection={false} />
