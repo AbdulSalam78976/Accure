@@ -80,11 +80,11 @@ export default function Footer( { showConsultationSection }: { showConsultationS
       {showConsultationSection && ( 
         <section 
           ref={sectionRef}
-          className="relative overflow-hidden bg-[#2E4B30] py-28 px-6 md:px-12 text-center border-0"
+          className="relative overflow-hidden bg-[#2E4B30] py-20 sm:py-24 md:py-28 px-4 sm:px-6 md:px-12 text-center border-0"
         >
           {/* ACCURE BRAND BARS - ANIMATED FROM TOP TO BOTTOM */}
-          <div className="hidden lg:block absolute right-35 top-0 h-full">
-            <div className="flex gap-4 h-full">
+          <div className="block absolute right-0 sm:right-2 lg:right-8 xl:right-12 top-0 h-full pointer-events-none opacity-100">
+            <div className="flex gap-2 sm:gap-3 lg:gap-4 h-full">
               {/* Bar 1 */}
               <div
                 ref={bar1Ref}
@@ -127,17 +127,17 @@ export default function Footer( { showConsultationSection }: { showConsultationS
           </div>
 
           <div className="relative z-10 max-w-3xl mx-auto">
-            <h2 className="text-white font-poppins text-5xl md:text-6xl font-medium tracking-tight mb-4">
+            <h2 className="text-white font-poppins text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight mb-4">
               We are here to help
             </h2>
 
-            <p className="text-white/75 text-base md:text-lg mb-8">
+            <p className="text-white/75 text-sm sm:text-base md:text-lg mb-8">
               Learn how we can support your operations
             </p>
 
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-2 px-8 py-4 bg-white text-[#395A3A] font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#7B9E73] hover:text-white hover:shadow-xl hover:shadow-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C6D6B4] focus-visible:ring-offset-2 focus-visible:ring-offset-[#2E4B30]"
+              className="group inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 md:px-8 py-2 sm:py-2.5 md:py-4 bg-white text-xs sm:text-sm md:text-[15px] lg:text-base text-[#395A3A] font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#7B9E73] hover:text-white hover:shadow-xl hover:shadow-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C6D6B4] focus-visible:ring-offset-2 focus-visible:ring-offset-[#2E4B30]"
             >
               <span>Arrange a consultation</span>
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -145,25 +145,24 @@ export default function Footer( { showConsultationSection }: { showConsultationS
           </div>
 
           {/* FIXED BACK TO TOP BUTTON */}
-          <div className="absolute bottom-0 right-0 z-20 hidden md:block">
+          <div className="absolute bottom-0 right-0 z-20 block">
             <button
               onClick={scrollToTop}
               className="
                 flex
                 items-center
-                gap-3
+                justify-center
+                gap-2 sm:gap-3
                 bg-white
                 text-[#141c0d]
-                px-12
-                h-[60px]
-                min-w-[220px]
-                text-[16px]
+                px-5 sm:px-8 lg:px-12
+                h-[44px] sm:h-[52px] lg:h-[60px]
+                min-w-[120px] sm:min-w-[160px] lg:min-w-[220px]
+                text-[13px] sm:text-[14px] lg:text-[16px]
                 font-medium
                 hover:bg-white
                 transition-colors
-                
-                 border-b-0
-
+                border-b-0
               "
               style={{
                 /* Increased the top pixel value to ensure it overlaps cleanly */
@@ -181,8 +180,8 @@ export default function Footer( { showConsultationSection }: { showConsultationS
       {/* MAIN FOOTER - NO BORDERS, SOLID BLOCKS */}
       {/* ========================================= */}
       <section className="relative border-t-0 bg-white">
-        <div className="max-w-[1600px] mx-auto px-8 lg:px-12 pt-10 pb-7">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_0.9fr] gap-x-24 gap-y-12">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 pt-10 pb-7">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_0.9fr] gap-x-8 lg:gap-x-24 gap-y-12">
             
             {/* ========================================= */}
             {/* BRAND */}
@@ -193,6 +192,7 @@ export default function Footer( { showConsultationSection }: { showConsultationS
                   src="/assets/logo-dark.png"
                   alt="accure"
                   fill
+                  sizes="200px"
                   className="object-contain object-left"
                 />
               </div>
@@ -277,7 +277,7 @@ export default function Footer( { showConsultationSection }: { showConsultationS
         {/* BOTTOM BAR - NO BORDERS, SOLID BLOCK */}
         {/* ========================================= */}
         <div className="bg-[#2E4B30] text-white">
-          <div className="max-w-[1600px] mx-auto px-8 lg:px-12 py-5 flex flex-col lg:flex-row items-center justify-between gap-4">
+          <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-5 flex flex-col lg:flex-row items-center justify-between gap-4">
             <span className="text-sm">
               Copyright © {new Date().getFullYear()} accure.
               All Rights Reserved.

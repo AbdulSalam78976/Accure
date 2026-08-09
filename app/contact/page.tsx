@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
@@ -14,56 +14,46 @@ import {
 } from 'lucide-react';
 
 // =========================================
-// LOCATIONS DATA
-// TODO: double check region/country pairings below — as given, "USA" lists
-// Saudi Arabia/UAE/Egypt, "UK" and "UAE" both list only Qatar, and "PAK" lists
-// South Africa/Kenya. That looks like the addresses may have been pasted under
-// the wrong region headers — worth a quick pass before this goes live.
+// OFFICE LOCATIONS DATA
+// One office per region. TODO: swap these placeholder addresses/phone/email
+// for your real per-office details.
 // =========================================
-interface LocationCountry {
-  name: string;
-  address: string;
-  phone: string; // placeholder — replace with the real number for this office
-  email: string; // placeholder — replace with the real inbox for this office
-}
-
-interface LocationRegion {
+interface OfficeLocation {
   region: string;
   image: string;
-  countries: LocationCountry[];
+  address: string;
+  phone: string;
+  email: string;
 }
 
-const locations: LocationRegion[] = [
+const locations: OfficeLocation[] = [
   {
     region: 'USA',
     image: '/images/USA.png',
-    countries: [
-      { name: 'Saudi Arabia', address: '404, Dubai Hills Business Park', phone: '+966 11 000 0000', email: 'riyadh@accure.com' },
-      { name: 'United Arab Emirates', address: '3, Emaar Hills Estate, P.O. box: 500497', phone: '+971 4 000 0000', email: 'dubai@accure.com' },
-      { name: 'Egypt', address: 'Building B 2116, the Smart Village, 28 Kms, Cairo-Alexandria Desert Road, Giza', phone: '+20 2 000 0000', email: 'cairo@accure.com' },
-    ],
+    address: '350 Fifth Avenue, New York, NY 10118, United States',
+    phone: '+1 212 000 0000',
+    email: 'newyork@accure.com',
   },
   {
     region: 'UK',
     image: '/images/UK.png',
-    countries: [
-      { name: 'Qatar', address: 'Palm Towers, Floor 41, Westbay, Doha', phone: '+974 4 000 0000', email: 'doha@accure.com' },
-    ],
+    address: 'Canary Wharf, London, United Kingdom',
+    phone: '+44 20 0000 0000',
+    email: 'london@accure.com',
   },
   {
     region: 'UAE',
     image: '/images/UAE.png',
-    countries: [
-      { name: 'Qatar', address: 'Palm Towers, Floor 41, Westbay, Doha', phone: '+974 4 000 0000', email: 'doha@accure.com' },
-    ],
+    address: 'Business Bay, Dubai, United Arab Emirates',
+    phone: '+971 4 000 0000',
+    email: 'dubai@accure.com',
   },
   {
     region: 'PAK',
     image: '/images/PAK.png',
-    countries: [
-      { name: 'South Africa', address: 'Central Office Park No.4, 257 Jean Avenue, Centurion, 0157, PO Box 7750, 0046, Centurion', phone: '+27 12 000 0000', email: 'centurion@accure.com' },
-      { name: 'Kenya', address: 'Vision Towers, Muthithi Road, Westlands Nairobi County, Nairobi', phone: '+254 20 000 0000', email: 'nairobi@accure.com' },
-    ],
+    address: 'Blue Area, Islamabad, Pakistan',
+    phone: '+92 51 000 0000',
+    email: 'islamabad@accure.com',
   },
 ];
 
@@ -83,6 +73,10 @@ export default function ContactPage() {
 
   const [activeRegion, setActiveRegion] = useState(locations[0].region);
   const activeLocation = locations.find((loc) => loc.region === activeRegion) ?? locations[0];
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitState, setSubmitState] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitMessage, setSubmitMessage] = useState('');
+  const [botCheck, setBotCheck] = useState('');
 
   const industries = [
     'Digital Governance',
@@ -167,9 +161,71 @@ export default function ContactPage() {
     };
   }, [barsAnimated]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+
+    if (botCheck) {
+      setSubmitState('error');
+      setSubmitMessage('Submission blocked.');
+      return;
+    }
+
+    if (!formData.privacyAgreed) {
+      setSubmitState('error');
+      setSubmitMessage('Please confirm that you agree to our privacy notice.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitState('idle');
+    setSubmitMessage('');
+
+    try {
+      const response = await fetch('https://formspree.io/f/xkjwoakd', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          company: formData.company,
+          industry: formData.industry,
+          country: formData.country,
+          message: formData.message,
+          privacyAgreed: formData.privacyAgreed,
+          contactUpdates: formData.contactUpdates,
+        }),
+      });
+
+      if (response.ok) {
+        setSubmitState('success');
+        setSubmitMessage('Thanks! Your inquiry has been sent successfully.');
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          company: '',
+          industry: '',
+          country: '',
+          message: '',
+          privacyAgreed: false,
+          contactUpdates: false,
+        });
+      } else {
+        setSubmitState('error');
+        setSubmitMessage('Unable to send your message right now. Please try again later.');
+      }
+    } catch {
+      setSubmitState('error');
+      setSubmitMessage('Unable to send your message right now. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -185,7 +241,7 @@ export default function ContactPage() {
 
   return (
     <>
-      <div className="min-h-screen bg-white font-manrope text-[#141c0d]">
+      <div className="min-h-screen bg-[#F3F6EE] font-manrope text-[#141c0d]">
         <Navbar />
 
         {/* ===== HERO SECTION WITH ANIMATED BARS ===== */}
@@ -195,8 +251,8 @@ export default function ContactPage() {
         >
 
           {/* ACCURE BRAND BARS */}
-          <div className="hidden lg:block absolute right-35 top-0 h-full">
-            <div className="flex gap-4 h-full">
+          <div className="block absolute right-0 sm:right-2 lg:right-8 xl:right-12 top-0 h-full pointer-events-none opacity-100">
+            <div className="flex gap-2 sm:gap-3 lg:gap-4 h-full">
               <div
                 ref={bar1Ref}
                 className="w-14 transition-all duration-1000 ease-out"
@@ -234,31 +290,34 @@ export default function ContactPage() {
           </div>
 
           <div className="relative z-10 w-full max-w-full mx-auto pt-16 md:pt-24">
-            <h2 className="text-white font-poppins text-5xl md:text-6xl font-medium tracking-tight mb-6 max-w-3xl leading-[1.1]">
+            <p className="text-[#95c168] text-sm font-bold uppercase tracking-[0.25em] mb-4">
+              Contact
+            </p>
+            <h1 className="text-white font-poppins text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 max-w-3xl leading-[1.08]">
               Let's Build <br />Something Great
-            </h2>
-            <p className="text-white/70 text-base md:text-lg max-w-2xl leading-relaxed">
+            </h1>
+            <p className="text-white/60 text-base md:text-lg max-w-2xl leading-relaxed">
               Tell us about your next challenge. Share a few details and we’ll help you shape the right digital solution with the right team behind it.
             </p>
           </div>
         </section>
 
         {/* ===== CONTACT FORM + OFFICES, SIDE BY SIDE ===== */}
-        <div className="bg-[#F8F9FA] py-16 md:py-24">
+        <div className="bg-[#F3F6EE] py-16 md:py-24">
           <div className="max-w-full mx-auto px-6 md:px-12 lg:px-16">
             <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
 
             {/* ===== CONTACT FORM ===== */}
             <div className="bg-white p-8 md:p-12 border border-[#141c0d]/10 shadow-[0_1px_3px_rgba(20,28,13,0.06)]">
 
-              <span className="inline-block text-xs font-bold tracking-[0.15em] uppercase text-[#7B9E73] mb-3">
+              <span className="inline-block text-xs font-bold tracking-[0.15em] uppercase text-[#95c168] mb-3">
                 Get in touch
               </span>
-              <div className="flex items-center gap-3 mb-8 border-b-2 border-[#141c0d]/10 pb-4">
-                <div className="w-10 h-10 bg-[#395A3A]/10 flex items-center justify-center text-[#395A3A]">
+              <div className="flex items-center gap-3 mb-8 border-b border-[#141c0d]/10 pb-4">
+                <div className="w-10 h-10 bg-[#2E4B30]/10 flex items-center justify-center text-[#2E4B30]">
                   <Send size={18} />
                 </div>
-                <h3 className="text-2xl font-bold font-poppins text-[#141c0d]">Send a Message</h3>
+                <h3 className="text-2xl font-medium font-poppins text-[#141c0d]">Send a Message</h3>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -275,7 +334,7 @@ export default function ContactPage() {
                       placeholder="John"
                       value={formData.firstName}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[#F8F9FA] border border-[#141c0d]/20 focus:outline-none focus:border-[#395A3A] transition-all placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-[#F3F6EE] border border-[#141c0d]/20 focus:outline-none focus:border-[#2E4B30] transition-all placeholder:text-gray-400"
                       required
                     />
                   </div>
@@ -289,7 +348,7 @@ export default function ContactPage() {
                       placeholder="Doe"
                       value={formData.lastName}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[#F8F9FA] border border-[#141c0d]/20 focus:outline-none focus:border-[#395A3A] transition-all placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-[#F3F6EE] border border-[#141c0d]/20 focus:outline-none focus:border-[#2E4B30] transition-all placeholder:text-gray-400"
                     />
                   </div>
                 </div>
@@ -306,7 +365,7 @@ export default function ContactPage() {
                       placeholder="john@company.com"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[#F8F9FA] border border-[#141c0d]/20 focus:outline-none focus:border-[#395A3A] transition-all placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-[#F3F6EE] border border-[#141c0d]/20 focus:outline-none focus:border-[#2E4B30] transition-all placeholder:text-gray-400"
                       required
                     />
                   </div>
@@ -320,7 +379,7 @@ export default function ContactPage() {
                       placeholder="+1 (555) 000-0000"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[#F8F9FA] border border-[#141c0d]/20 focus:outline-none focus:border-[#395A3A] transition-all placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-[#F3F6EE] border border-[#141c0d]/20 focus:outline-none focus:border-[#2E4B30] transition-all placeholder:text-gray-400"
                       required
                     />
                   </div>
@@ -338,7 +397,7 @@ export default function ContactPage() {
                       placeholder="Company name"
                       value={formData.company}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[#F8F9FA] border border-[#141c0d]/20 focus:outline-none focus:border-[#395A3A] transition-all placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-[#F3F6EE] border border-[#141c0d]/20 focus:outline-none focus:border-[#2E4B30] transition-all placeholder:text-gray-400"
                       required
                     />
                   </div>
@@ -349,7 +408,7 @@ export default function ContactPage() {
                         name="country"
                         value={formData.country}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 bg-[#F8F9FA] border border-[#141c0d]/20 appearance-none focus:outline-none focus:border-[#395A3A] transition-all text-[#333]"
+                        className="w-full px-4 py-3 bg-[#F3F6EE] border border-[#141c0d]/20 appearance-none focus:outline-none focus:border-[#2E4B30] transition-all text-[#333]"
                       >
                         <option value="">Select country</option>
                         {countries.map((country) => (
@@ -373,7 +432,7 @@ export default function ContactPage() {
                       name="industry"
                       value={formData.industry}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[#F8F9FA] border border-[#141c0d]/20 appearance-none focus:outline-none focus:border-[#395A3A] transition-all text-[#333]"
+                      className="w-full px-4 py-3 bg-[#F3F6EE] border border-[#141c0d]/20 appearance-none focus:outline-none focus:border-[#2E4B30] transition-all text-[#333]"
                       required
                     >
                       <option value="">Select domain</option>
@@ -398,33 +457,66 @@ export default function ContactPage() {
                     placeholder="Tell us about your project or inquiry..."
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-[#F8F9FA] border border-[#141c0d]/20 focus:outline-none focus:border-[#395A3A] transition-all resize-none placeholder:text-gray-400"
+                    className="w-full px-4 py-3 bg-[#F3F6EE] border border-[#141c0d]/20 focus:outline-none focus:border-[#2E4B30] transition-all resize-none placeholder:text-gray-400"
+                  />
+                </div>
+
+                {/* Privacy + anti-spam */}
+                <div className="space-y-3 pt-2">
+                  <label className="flex items-start gap-3 text-sm text-[#333]">
+                    <input
+                      type="checkbox"
+                      name="privacyAgreed"
+                      checked={formData.privacyAgreed}
+                      onChange={handleChange}
+                      className="mt-1 h-4 w-4 rounded border-[#141c0d]/20 text-[#395A3A] focus:ring-[#395A3A]"
+                      required
+                    />
+                    <span>
+                      I agree to the processing of my information for this inquiry and understand the privacy notice.
+                    </span>
+                  </label>
+
+                  <input
+                    type="text"
+                    name="botCheck"
+                    value={botCheck}
+                    onChange={(e) => setBotCheck(e.target.value)}
+                    className="hidden"
+                    tabIndex={-1}
+                    autoComplete="off"
                   />
                 </div>
 
                 {/* Submit */}
-                <div className="pt-4">
+                <div className="pt-2 space-y-3">
                   <button
                     type="submit"
-                    className="w-full md:w-auto px-10 py-4 bg-[#395A3A] hover:bg-[#2E4B30] text-white font-semibold transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg flex items-center justify-center gap-3"
+                    disabled={isSubmitting}
+                    className="group w-full md:w-auto px-10 py-4 bg-[#2E4B30] hover:bg-[#a6d278] hover:text-[#141c0d] text-white font-semibold font-poppins uppercase tracking-wider text-sm transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    <span>Send Inquiry</span>
+                    <span>{isSubmitting ? 'Sending...' : 'Send Inquiry'}</span>
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </button>
+                  {submitMessage ? (
+                    <p className={`text-sm ${submitState === 'success' ? 'text-[#395A3A]' : 'text-red-600'}`}>
+                      {submitMessage}
+                    </p>
+                  ) : null}
                 </div>
               </form>
             </div>
 
             {/* ===== OUR OFFICES ===== */}
             <div>
-              <span className="inline-block text-xs font-bold tracking-[0.15em] uppercase text-[#7B9E73] mb-3">
+              <span className="inline-block text-xs font-bold tracking-[0.15em] uppercase text-[#95c168] mb-3">
                 Global presence
               </span>
-              <div className="flex items-center gap-3 mb-8 border-b-2 border-[#141c0d]/10 pb-4">
-                <div className="w-10 h-10 bg-[#395A3A]/10 flex items-center justify-center text-[#395A3A]">
+              <div className="flex items-center gap-3 mb-8 border-b border-[#141c0d]/10 pb-4">
+                <div className="w-10 h-10 bg-[#2E4B30]/10 flex items-center justify-center text-[#2E4B30]">
                   <MapPin size={18} />
                 </div>
-                <h3 className="text-2xl font-bold font-poppins text-[#141c0d]">Our Offices</h3>
+                <h3 className="text-2xl font-medium font-poppins text-[#141c0d]">Our Offices</h3>
               </div>
 
               <div className="flex flex-col sm:grid sm:grid-cols-[auto_1fr] gap-6 lg:gap-10">
@@ -464,78 +556,44 @@ export default function ContactPage() {
                           `}
                         >
                           {loc.region}
-                          <span className={isActive ? 'text-[#7B9E73]' : 'text-[#141c0d]/25'}> ({loc.countries.length})</span>
                         </span>
                       </button>
                     );
                   })}
                 </div>
 
-                {/* Selected region's image + office cards */}
-                <div>
-                  {/* Square image as a proper anchor — centered, capped width,
-                      with the region name as a caption instead of competing
-                      for space with the cards in a cramped side-by-side row */}
-                  <div className="flex items-center gap-5 mb-8">
-                    <div className="relative w-[104px] h-[104px] sm:w-[128px] sm:h-[128px] flex-shrink-0 border border-[#141c0d]/10 overflow-hidden bg-white">
+                {/* Selected region's single office card — image + details
+                    together, since each region has exactly one office */}
+                <div className="bg-white border border-[#141c0d]/10 shadow-[0_1px_3px_rgba(20,28,13,0.06)] overflow-hidden">
+                  <div className="bg-[#141c0d] px-6 py-4 flex items-center gap-2.5">
+                    <MapPin size={15} className="text-[#95c168] flex-shrink-0" />
+                    <h4 className="text-white font-poppins font-bold text-base">
+                      {activeLocation.region} Office
+                    </h4>
+                  </div>
+
+                  <div className="p-6 flex flex-col sm:flex-row gap-6">
+                    <div className="relative w-full h-[160px] sm:w-[150px] sm:h-[150px] flex-shrink-0 border border-[#141c0d]/10 overflow-hidden bg-[#F3F6EE]">
                       <Image
                         src={activeLocation.image}
                         alt={activeLocation.region}
                         fill
-                        sizes="128px"
+                        sizes="150px"
                         className="object-cover"
                       />
                     </div>
-                    <div>
-                      <p className="font-poppins font-bold text-lg text-[#141c0d]">
-                        {activeLocation.region}
-                      </p>
-                      <p className="text-sm text-[#141c0d]/50 mt-1">
-                        {activeLocation.countries.length} {activeLocation.countries.length === 1 ? 'office' : 'offices'} in this region
-                      </p>
-                    </div>
-                  </div>
 
-                  <div className="grid sm:grid-cols-2 gap-5 max-h-[480px] overflow-y-auto pr-1 -mr-1">
-                    {activeLocation.countries.map((country) => (
-                      <div
-                        key={country.name}
-                        className="
-                          bg-white border border-[#141c0d]/10
-                          shadow-[0_1px_3px_rgba(20,28,13,0.06)]
-                          hover:shadow-[0_6px_20px_rgba(20,28,13,0.08)]
-                          hover:border-[#395A3A]/25
-                          transition-all duration-300
-                        "
-                      >
-                        {/* Header bar */}
-                        <div className="bg-[#141c0d] px-6 py-4 flex items-center gap-2.5">
-                          <MapPin size={15} className="text-[#7B9E73] flex-shrink-0" />
-                          <h4 className="text-white font-poppins font-bold text-base">
-                            {country.name}
-                          </h4>
-                        </div>
-
-                        {/* Body */}
-                        <div className="p-6">
-                          <div className="space-y-2 text-sm text-[#333] leading-relaxed">
-                            <p>{country.address}</p>
-                            <div className="flex items-center gap-2 pt-2">
-                              <Phone size={14} className="text-[#395A3A]" />
-                              <span>{country.phone}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Mail size={14} className="text-[#395A3A]" />
-                              <span>{country.email}</span>
-                            </div>
-                          </div>
-                        </div>
+                    <div className="space-y-2 text-sm text-[#333] leading-relaxed">
+                      <p>{activeLocation.address}</p>
+                      <div className="flex items-center gap-2 pt-2">
+                        <Phone size={14} className="text-[#395A3A]" />
+                        <span>{activeLocation.phone}</span>
                       </div>
-                    ))}
-
-                    {activeLocation.countries.length === 0 && (
-                      <p className="text-sm text-[#141c0d]/50 sm:col-span-2">No offices in this region yet.</p>
-                    )}
+                      <div className="flex items-center gap-2">
+                        <Mail size={14} className="text-[#395A3A]" />
+                        <span>{activeLocation.email}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -550,3 +608,4 @@ export default function ContactPage() {
     </>
   );
 }
+

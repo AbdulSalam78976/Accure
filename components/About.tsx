@@ -153,81 +153,55 @@ export default function AIAdvantageSection() {
   ];
 
   return (
-    <section id="why-accure" ref={sectionRef} className="w-full bg-white py-12 overflow-hidden relative">
-      <div className="max-w-full mx-auto relative px-6 md:px-12 lg:px-20">
+    <section id="why-accure" ref={sectionRef} className="w-full bg-white py-8 sm:py-10 overflow-hidden relative">
+      <div className="max-w-full mx-auto relative px-4 sm:px-6 md:px-12 lg:px-20">
         {/* ===== HEADER SECTION ===== */}
         <div className="mb-7 md:mb-8 max-w-2xl">
-          <h2 className="text-[#1A201B] text-4xl md:text-5xl lg:text-[56px] font-medium leading-[1.1] tracking-tight mb-5">
+          <h2 className="text-[#1A201B] text-[26px] sm:text-[40px] lg:text-[50px] font-medium leading-[1.1] tracking-tight mb-5">
             From digital change to <br />
             AI-powered advantage
           </h2>
-          <p className="text-[#5A6A5C] text-base md:text-lg leading-relaxed max-w-xl">
+          <p className="text-[#5A6A5C] text-sm sm:text-base md:text-lg leading-relaxed max-w-xl">
             We help enterprises reimagine how they work, serve, and grow with AI-led transformation that turns complexity into clarity and ambition into measurable progress.
           </p>
         </div>
       </div>
 
-      {/* ===== ACCURE BRAND BARS =====
-          Full-bleed strip, breaks out of the container padding and stretches
-          edge to edge of the viewport. Sits in its own row so it never
-          overlaps or dims the stats content below. */}
-      <div className="hidden lg:block relative left-1/2 right-1/2 -mx-[50vw] w-screen mb-10">
+      {/* ===== ACCURE BRAND BARS ===== */}
+      <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen mb-10">
         <div className="flex flex-col gap-3">
-          <div className="w-full h-10 overflow-hidden">
-            <div
-              ref={bar1Ref}
-              className="h-full"
-              style={{
-                width: '0%',
-                background: 'linear-gradient(90deg,#E0EAD2 0%,#C0D2AC 100%)',
-                transitionProperty: 'width',
-                transitionDuration: '1.2s',
-                transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
-              }}
-            />
-          </div>
-          <div className="w-full h-10 overflow-hidden">
-            <div
-              ref={bar2Ref}
-              className="h-full"
-              style={{
-                width: '0%',
-                background: 'linear-gradient(90deg,#9DB89A 0%,#7B9E73 100%)',
-                transitionProperty: 'width',
-                transitionDuration: '1.2s',
-                transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
-              }}
-            />
-          </div>
-          <div className="w-full h-10 overflow-hidden">
-            <div
-              ref={bar3Ref}
-              className="h-full"
-              style={{
-                width: '0%',
-                background: 'linear-gradient(90deg,#4C6E4F 0%,#2E4B30 100%)',
-                transitionProperty: 'width',
-                transitionDuration: '1.2s',
-                transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
-              }}
-            />
-          </div>
+          {[
+            'linear-gradient(90deg,#E0EAD2 0%,#C0D2AC 100%)',
+            'linear-gradient(90deg,#9DB89A 0%,#7B9E73 100%)',
+            'linear-gradient(90deg,#4C6E4F 0%,#2E4B30 100%)',
+          ].map((bg, i) => (
+            <div key={i} className="w-full h-10 overflow-hidden">
+              <div
+                ref={[bar1Ref, bar2Ref, bar3Ref][i]}
+                className="h-full"
+                style={{
+                  width: '0%',
+                  background: bg,
+                  transitionProperty: 'width',
+                  transitionDuration: '1.2s',
+                  transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+                }}
+              />
+            </div>
+          ))}
         </div>
       </div>
 <div className="max-w-full mx-auto relative px-6 md:px-12 lg:px-20">
-  {/* ===== STATS: ONE ROW ON DESKTOP, HORIZONTAL SCROLL ON MOBILE ===== */}
+  {/* ===== STATS: 4-COLUMN GRID ON DESKTOP, HORIZONTAL SCROLL ON MOBILE ===== */}
   <div
     className="
-      flex justify-start md:justify-center overflow-x-auto gap-8 pb-4
+      flex justify-start overflow-x-auto gap-8 pb-4
       snap-x snap-mandatory
       md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-10 md:overflow-visible md:place-items-center
       [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]
       relative
     "
   >
-    {/* White fade mask on the right edge, mobile only */}
-    <div className="absolute top-0 right-0 w-12 h-full bg-gradient-to-l from-white to-transparent pointer-events-none z-10 md:hidden" />
-
     {stats.map((stat: StatData, index: number) => (
       <div
         key={index}
@@ -235,14 +209,14 @@ export default function AIAdvantageSection() {
           statRefs.current[index] = el;
         }}
         className={`
-          flex flex-col min-w-[240px] sm:min-w-[260px] snap-start md:min-w-0 md:snap-none
+          flex flex-col min-w-[200px] snap-start md:min-w-0 md:snap-none
           transition-all duration-700 ease-out
           ${visibleStats[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
         `}
         style={{ transitionDelay: `${index * 200}ms` }}
       >
         {/* Line Divider with animation */}
-        <div className="w-35 h-[5px] bg-gray-200 mb-5 overflow-hidden relative mx-auto md:mx-0">
+        <div className="w-24 sm:w-35 h-[5px] bg-gray-200 mb-5 overflow-hidden relative mx-auto md:mx-0">
           <div
             className={`h-full bg-[#4C6E4F] transition-all duration-1000 ease-out ${
               visibleStats[index] ? 'w-full' : 'w-0'
@@ -251,12 +225,12 @@ export default function AIAdvantageSection() {
         </div>
 
         {/* Animated Number */}
-        <div className="font-light  text-[500px] md:text-[80px] leading-none text-[#4C6E4F] mb-4 text-center md:text-center text-center md:text-left">
+        <div className="font-light text-[32px] sm:text-[44px] md:text-[80px] leading-none text-[#4C6E4F] mb-4 text-center md:text-left">
           <Counter to={stat.number} suffix={stat.suffix} trigger={visibleStats[index]} duration={1.8} />
         </div>
 
         {/* Description Text */}
-        <p className="text-[#1A201B] text-base md:text-lg leading-snug max-w-[220px] text-center md:text-left mx-auto md:mx-0">
+        <p className="text-[#1A201B] text-xs sm:text-sm md:text-lg leading-snug max-w-[220px] text-center md:text-left mx-auto md:mx-0">
           {stat.title}
         </p>
       </div>

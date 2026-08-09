@@ -353,8 +353,8 @@ export default function PrivacyPolicyPage() {
           <Navbar />
 
           {/* ACCURE BRAND BARS */}
-          <div className="hidden lg:block absolute right-35 top-0 h-full">
-            <div className="flex gap-4 h-full">
+          <div className="block absolute right-0 sm:right-2 lg:right-8 xl:right-12 top-0 h-full pointer-events-none opacity-100">
+            <div className="flex gap-2 sm:gap-3 lg:gap-4 h-full">
               <div
                 ref={bar1Ref}
                 className="w-14 transition-all duration-1000 ease-out"
@@ -395,7 +395,7 @@ export default function PrivacyPolicyPage() {
             <p className="text-[#C6D6B4] text-sm font-semibold uppercase tracking-[0.25em] mb-4">
               Legal
             </p>
-            <h2 className="text-white font-poppins text-5xl md:text-6xl font-medium tracking-tight mb-6 max-w-3xl leading-[1.1]">
+            <h2 className="text-white font-poppins text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight mb-6 max-w-3xl leading-[1.1]">
               Privacy Policy
             </h2>
             <p className="text-white/70 text-base md:text-lg max-w-2xl leading-relaxed">

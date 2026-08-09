@@ -14,13 +14,7 @@ const sectorLinks = [
   { label: 'Environment', href: '/sectors/environment' },
 ];
 
-const capabilityLinks = [
-  { label: 'System Integration', href: '/capabilities#integration' },
-  { label: 'Cloud & Infrastructure', href: '/capabilities#cloud' },
-  { label: 'Data and Analytics', href: '/capabilities#analytics' },
-  { label: 'IoT & Telemetry', href: '/capabilities#iot' },
-  { label: 'Compliance & Security', href: '/capabilities#security' },
-];
+
 
 export default function Navbar() {
   const pathname = usePathname(); 
@@ -92,25 +86,25 @@ export default function Navbar() {
           : 'bg-transparent pt-4 sm:pt-6 pb-2'
       }`}
     >
-      <div className="max-w-full mx-auto px-4 sm:px-8 flex items-center justify-between">
+      <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
 
         {/* Brand Logo */}
-        <Link href="/" className="flex items-center group focus:outline-none">
-          <div className="relative h-8 sm:h-9 w-36 sm:w-44 flex items-center">
+        <Link href="/" className="flex items-center group focus:outline-none min-w-0">
+          <div className="relative h-8 sm:h-9 w-28 sm:w-36 md:w-40 lg:w-44 flex items-center">
             <Image
               src="/assets/logo-light.png"
               alt="accure logo"
               width={400}
               height={400}
               priority
-              sizes="(max-width: 640px) 144px, 176px"
+              sizes="(max-width: 640px) 112px, (max-width: 1024px) 144px, 176px"
               className="object-contain object-left transition-transform duration-300 group-hover:scale-105"
             />
           </div>
         </Link>
 
         {/* Desktop Navigation Floating Pill Bar */}
-        <div className="hidden md:flex items-center gap-1 bg-[#0B120E]/40 backdrop-blur-xl  pl-6 pr-2 py-1.5  shadow-2xl">
+        <div className="hidden md:flex items-center gap-1 bg-[#0B120E]/40 backdrop-blur-xl pl-4 lg:pl-6 pr-2 py-1.5 shadow-2xl">
           <nav className="flex items-center gap-6 font-medium text-sm text-white/90 mr-2">
 
             {/* HOME LINK */}
@@ -162,46 +156,13 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Capabilities Dropdown */}
-            <div className="relative group py-2">
-              <Link 
-                href="/capabilities" 
-                className={`flex items-center gap-1.5 transition-colors py-1 ${
-                  isActive('/capabilities') 
-                    ? activeLinkClasses 
-                    : 'hover:text-white group-hover:text-[#95c168]'
-                }`}
-              >
-                <span>Capabilities</span>
-                {!isActive('/capabilities') && (
-                  <ChevronDown className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-180 text-white/60 group-hover:text-[#95c168]" />
-                )}
-              </Link>
-
-              {/* Hover Dropdown Panel */}
-              <div className="absolute left-1/2 -translate-x-1/2 top-full pt-2 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 ease-out">
-                <div className="bg-[#0B120E]/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/15 p-2 min-w-[250px] text-left relative overflow-hidden">
-                  <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-32 h-16 bg-[#95c168]/20 blur-xl rounded-full pointer-events-none" />
-
-                  {capabilityLinks.map((item) => (
-                    <Link
-                      key={item.label}
-                      href={item.href}
-                      className={`group/item flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 ${
-                        isSubLinkActive(item.href) 
-                          ? 'text-[#95c168]' 
-                          : 'text-[#C6CCC1] hover:text-white hover:bg-white/10'
-                      }`}
-                    >
-                      <span>{item.label}</span>
-                      <ArrowUpRight className={`w-3.5 h-3.5 transition-all ${
-                        isSubLinkActive(item.href) ? 'opacity-100 translate-x-0 text-[#95c168]' : 'opacity-0 -translate-x-1 group-hover/item:opacity-100 group-hover/item:translate-x-0 text-[#95c168]'
-                      }`} />
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
+            {/* Capabilities */}
+            <Link 
+              href="/capabilities" 
+              className={isActive('/capabilities') ? activeLinkClasses : inactiveLinkClasses}
+            >
+              Capabilities
+            </Link>
 
             {/* Insights */}
             <Link 
@@ -233,11 +194,11 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Hamburger Button */}
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-expanded={mobileMenuOpen}
-            className="p-2.5 rounded-full bg-[#0B120E]/60 backdrop-blur-md border border-white/20 text-white hover:bg-white/10 transition-all"
+            className="p-2.5 rounded-full bg-[#0B120E]/70 backdrop-blur-md border border-white/20 text-white hover:bg-white/10 transition-all"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -248,7 +209,7 @@ export default function Navbar() {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden mx-4 mt-3 p-6 rounded-3xl bg-[#0B120E]/95 backdrop-blur-xl border border-white/20 text-white space-y-4 shadow-2xl animate-in fade-in slide-in-from-top-2">
+        <div className="md:hidden mx-3 sm:mx-4 mt-3 p-5 sm:p-6 rounded-2xl bg-[#0B120E]/95 backdrop-blur-xl border border-white/20 text-white space-y-3 shadow-2xl animate-in fade-in slide-in-from-top-2">
           
           <Link
             href="/"

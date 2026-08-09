@@ -28,28 +28,28 @@ const domainData: IndustryData[] = [
   {
     id: 'digital-gov',
     title: 'Digital Governance & Government',
-    image: '/images/gov.jpg',
+    image: '/images/DigitalGovernment.jpg',
     href: '/sectors/digital-gov',
     icon: Landmark,
   },
   {
     id: 'it-infra',
     title: 'Enterprise IT Infrastructure & Cloud',
-    image: '/images/data-center.jfif',
+    image: '/images/data-center.jpg',
     href: '/sectors/it-infra',
     icon: Server,
   },
   {
     id: 'smart-energy',
     title: 'Smart Energy & Smart Grid',
-    image: '/images/smart-grid.png',
+    image: '/images/smartgrid1.jpg',
     href: '/sectors/smart-energy',
     icon: Zap,
   },
   {
     id: 'water-systems',
     title: 'Hydromet for Water & Weather',
-    image: '/images/hydromet.jpg',
+    image: '/images/water.jpg',
     href: '/sectors/water-systems',
     icon: Droplets,
   },
@@ -133,19 +133,19 @@ export default function IndustriesSection() {
   }, []);
 
   return (
-    <section className=" py-14 md:py-14 overflow-hidden">
-      <div className="max-w-full mx-auto pl-6 lg:pl-16 xl:pl-24">
-        <div className="grid lg:grid-cols-[0.8fr_1fr] gap-16 xl:gap-24 items-center">
+    <section className="py-12 sm:py-14 md:py-16 overflow-hidden">
+      <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-16 xl:px-24">
+        <div className="grid lg:grid-cols-[0.8fr_1fr] gap-10 lg:gap-16 xl:gap-24 items-center">
 
           {/* LEFT CONTENT */}
           <div>
             {/* Heading */}
-            <h2 className="font-poppins text-[80px]  font-medium tracking-tight text-[#141c0d] leading-[1.1]">
+            <h2 className="font-poppins text-[32px] sm:text-[40px] lg:text-[60px] font-medium tracking-tight text-[#141c0d] leading-[1.1]">
               Sectors we serve
             </h2>
 
             {/* Description */}
-            <p className="mt-5 max-w-2xl text-base md:text-lg leading-relaxed text-[#4f564b]">
+            <p className="mt-5 max-w-2xl text-sm sm:text-base md:text-lg leading-relaxed text-[#4f564b]">
               We partner with global enterprises across industries to solve
               complex challenges through practical, scalable technology services
               aligned with their business goals, helping them adapt, grow, and
@@ -173,7 +173,7 @@ export default function IndustriesSection() {
                       transition={{ duration: 0.3, ease: 'easeOut' }}
                       className={`
                         flex items-center gap-4
-                        font-poppins text-xs md:text-[18px] xl:text-[24px] font-semibold leading-[1.4]
+                        font-poppins text-sm md:text-[18px] xl:text-[24px] font-semibold leading-[1.4]
                         ${isActive ? 'text-[#141c0d]' : 'text-[#AEB3BE]'}
                       `}
                     >
@@ -204,16 +204,9 @@ export default function IndustriesSection() {
             <div className="mt-10 flex flex-wrap items-center gap-6">
               <Link
                 href={activeIndustry.href}
-                className="
-                  group inline-flex items-center gap-3
-                  px-7 py-3.5
-                  border border-[#141c0d] 
-                  text-sm md:text-base font-semibold text-[#141c0d]
-                  hover:bg-[#7B9E73] hover:text-white
-                  transition-all duration-300
-                "
+                className="group inline-flex items-center gap-3 px-7 py-3.5 bg-[#2E4B30] hover:bg-[#a6d278] hover:text-[#141c0d] text-sm md:text-base font-semibold text-white uppercase tracking-wider transition-all duration-300 font-poppins"
               >
-                <span>LEARN MORE</span>
+                <span>Learn More</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </div>
@@ -221,7 +214,7 @@ export default function IndustriesSection() {
 
           {/* RIGHT IMAGE */}
           <div className="relative">
-            <div className="relative h-[550px] overflow-hidden  shadow-lg">
+            <div className="relative h-[320px] sm:h-[420px] lg:h-[550px] overflow-hidden shadow-lg">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeIndustry.id}
@@ -236,6 +229,7 @@ export default function IndustriesSection() {
                     alt={activeIndustry.title}
                     fill
                     priority
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover"
                   />
                 </motion.div>

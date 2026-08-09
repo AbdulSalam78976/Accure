@@ -5,24 +5,24 @@ import Link from 'next/link';
 
 export default function SecuritySection() {
   return (
-    <section className=" mx-5">
+    <section className="mx-0 md:mx-5">
       <div className="max-w-full mx-auto grid lg:grid-cols-2 min-h-[560px]">
         
-        {/* Image Side */}
-        <div className="relative min-h-[450px] lg:min-h-full">
+        <div className="relative min-h-[300px] lg:min-h-full">
           <Image
             src="/images/security.jfif"
             alt="Security and Governance"
             fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover"
           />
         </div>
 
         {/* Content Side */}
         <div className="flex items-center">
-          <div className="max-w-[700px] px-8 md:px-16 lg:px-24 py-10">
+          <div className="max-w-[700px] px-6 md:px-12 lg:px-24 py-10">
             
-            <h2 className="font-poppins text-4xl md:text-5xl font-bold text-[#141c0d] leading-tight">
+            <h2 className="font-poppins text-[24px] sm:text-3xl md:text-4xl lg:text-[50px] font-medium text-[#141c0d] leading-tight">
               We build systems with security in mind.
             </h2>
 
@@ -36,22 +36,7 @@ export default function SecuritySection() {
 
             <Link
               href="/capabilities#security"
-              className="
-                inline-flex
-                items-center
-                justify-center
-                mt-10
-                px-8
-                py-4
-                border
-                border-[#141c0d]
-                text-[#141c0d]
-                font-semibold
-                hover:bg-[#7B9E73]
-                hover:text-white
-                transition-all
-                duration-300
-              "
+              className="group inline-flex items-center justify-center gap-3 mt-10 px-8 py-4 bg-[#2E4B30] hover:bg-[#a6d278] hover:text-[#141c0d] text-white font-semibold font-poppins uppercase tracking-wider text-sm transition-all duration-300"
             >
               Learn more about security
             </Link>

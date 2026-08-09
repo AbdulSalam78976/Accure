@@ -1,3 +1,4 @@
+﻿
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -50,8 +51,8 @@ export default function IndustriesPage() {
         className="w-full text-left relative overflow-hidden bg-gradient-to-br from-[#0B120E] via-[#2E4B30] to-[#0B120E] -mt-24 pt-36 pb-24 px-6 md:px-12 lg:px-20"
       >
         {/* Brand bars */}
-        <div className="hidden lg:block absolute right-35 top-0 h-full pointer-events-none">
-          <div className="flex gap-4 h-full">
+        <div className="block absolute right-0 sm:right-2 lg:right-8 xl:right-12 top-0 h-full pointer-events-none opacity-100">
+          <div className="flex gap-2 sm:gap-3 lg:gap-4 h-full">
             {[
               'linear-gradient(180deg,#E0EAD2 0%,#C0D2AC 100%)',
               'linear-gradient(180deg,#9DB89A 0%,#7B9E73 100%)',
@@ -71,7 +72,7 @@ export default function IndustriesPage() {
           <p className="text-[#95c168] text-sm font-bold uppercase tracking-[0.25em] mb-4">
             Sectors
           </p>
-          <h1 className="text-white font-poppins text-5xl md:text-6xl font-bold tracking-tight mb-5 max-w-3xl leading-[1.08]">
+          <h1 className="text-white font-poppins text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight mb-5 max-w-3xl leading-[1.08]">
             Industries we serve
           </h1>
           <p className="text-white/60 text-base md:text-lg max-w-xl leading-relaxed">
@@ -97,6 +98,7 @@ export default function IndustriesPage() {
                 alt={sector.title}
                 fill
                 priority={idx < 2}
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
               />
               {/* subtle gradient at bottom only */}
@@ -117,7 +119,7 @@ export default function IndustriesPage() {
                   {String(idx + 1).padStart(2, '0')}
                 </p>
 
-                <h2 className="font-poppins font-bold text-2xl md:text-3xl text-[#141c0d] tracking-tight leading-snug mb-4">
+                <h2 className="font-poppins font-bold text-[22px] sm:text-2xl md:text-3xl text-[#141c0d] tracking-tight leading-snug mb-4">
                   {sector.title}
                 </h2>
 
@@ -140,8 +142,7 @@ export default function IndustriesPage() {
 
                 <Link
                   href={sector.href}
-                  className="group inline-flex items-center gap-3 px-7 py-3.5 text-sm font-bold uppercase tracking-[0.1em] text-white transition-all duration-300 hover:opacity-90"
-                  style={{ background: sector.accent }}
+                  className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-3.5 text-xs sm:text-sm md:text-[15px] font-semibold uppercase tracking-[0.1em] text-white bg-[#2E4B30] hover:bg-[#a6d278] transition-all duration-300 shadow-lg hover:shadow-[#95c168]/30 font-bold"
                 >
                   Explore sector
                   <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -170,3 +171,4 @@ export default function IndustriesPage() {
     </div>
   );
 }
+

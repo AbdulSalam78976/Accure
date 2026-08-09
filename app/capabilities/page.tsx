@@ -1,102 +1,154 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import {
-  Antenna,
-  BarChart3,
-  CloudCog,
-  Database,
-  Globe2,
-  LifeBuoy,
-  ShieldCheck,
-  Waypoints,
-  ArrowUpRight,
+  ArrowRight,
+  // Capability icons — chosen for precision and visual quality
+  Workflow,          // System Integration  — nodes connected in a flow
+  Server,            // Cloud & Infrastructure — rack/server
+  LineChart,         // Data & Analytics — clean line graph
+  Radio,             // IoT & Telemetry — broadcast/signal waves
+  ShieldHalf,        // Compliance & Security — half-shield, distinct look
+  LayoutPanelLeft,   // Digital Experience & Portals — panel/layout grid
+  type LucideIcon,
 } from 'lucide-react';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
-import Link from 'next/link';
 
-// ─── Capability data ──────────────────────────────────────────────────────────
-const capabilities = [
+// ─── TYPES ────────────────────────────────────────────────────────────────────
+type Capability = {
+  id: string;
+  title: string;
+  Icon: LucideIcon;
+  summary: string;
+  description: string;
+  tags: string[];
+  deliverables: string[];
+  accent: string;
+};
+
+// ─── CAPABILITY DATA ──────────────────────────────────────────────────────────
+const capabilities: Capability[] = [
   {
     id: 'integration',
     title: 'System Integration',
+    Icon: Workflow,
+    summary: 'API-first architectures for secure, high-throughput ecosystem interoperability.',
     description:
-      'We connect disparate platforms, agencies, and data sources into unified systems — replacing fragmented point-to-point connections with governed, API-first integration architectures built for scale.',
-    icon: Waypoints,
-    tags: ['API-first architecture', 'Middleware & ESB', 'Legacy modernisation', 'Real-time data flows'],
-    accent: '#243A1E',
+      'We connect agencies, enterprise platforms, and operational tools into governed, API-first ecosystems that work reliably at scale without breaking legacy stability.',
+    tags: ['API-first architecture', 'Middleware & ESB', 'Legacy modernisation', 'Real-time flows'],
+    deliverables: [
+      'Event-driven architecture design',
+      'API gateway setup & governance',
+      'Data mapping & protocol conversion',
+    ],
+    accent: '#95c168',
   },
   {
     id: 'cloud',
     title: 'Cloud & Infrastructure',
+    Icon: Server,
+    summary: 'Resilient hybrid and sovereign cloud foundations built for compliance.',
     description:
-      'We design and migrate enterprise and government workloads to hybrid, multi-cloud, and sovereign cloud environments — with the networking, security, and operational tooling to keep them running reliably.',
-    icon: CloudCog,
+      'We design secure, resilient hybrid and sovereign cloud environments with the platform foundations necessary to support long-term operational scale and strict regulatory needs.',
     tags: ['Hybrid cloud strategy', 'Platform engineering', 'Infrastructure-as-code', 'Disaster recovery'],
-    accent: '#2E4B30',
+    deliverables: [
+      'Automated IaC deployments',
+      'Multi-region failover design',
+      'Sovereignty & compliance mapping',
+    ],
+    accent: '#7B9E73',
   },
   {
     id: 'analytics',
     title: 'Data & Analytics',
+    Icon: LineChart,
+    summary: 'Governed data pipelines and operational BI that drive real-time decisioning.',
     description:
-      'We build governed data platforms, analytics pipelines, and dashboards that turn raw operational data into decisions — across government statistics, energy telemetry, water quality, and environmental indicators.',
-    icon: Database,
-    tags: ['Data architecture', 'BI & dashboards', 'AI/ML pipelines', 'Data governance'],
-    accent: '#395A3A',
+      'We build governed data platforms and analytics frameworks that translate complex, dispersed operational data into clear, actionable intelligence.',
+    tags: ['Data architecture', 'BI & dashboards', 'AI/ML pipelines', 'Governance'],
+    deliverables: [
+      'Centralised data warehouse engineering',
+      'Real-time streaming pipelines',
+      'Executive performance dashboards',
+    ],
+    accent: '#95c168',
   },
   {
     id: 'iot',
     title: 'IoT & Telemetry',
+    Icon: Radio,
+    summary: 'Edge device orchestration and real-time operational monitoring.',
     description:
-      'We deploy and integrate sensor networks, SCADA systems, and edge devices — from river gauges and weather stations to smart meters and substation RTUs — into unified operational platforms.',
-    icon: Antenna,
-    tags: ['Sensor networks', 'SCADA integration', 'Edge computing', 'Real-time telemetry'],
-    accent: '#4C7A38',
+      'We connect sensors, edge devices, SCADA systems, and remote field assets into unified telemetry systems that provide instant visibility across critical assets.',
+    tags: ['Sensor networks', 'SCADA integration', 'Edge computing', 'Live telemetry'],
+    deliverables: [
+      'Low-latency edge processing',
+      'Telemetry data normalization',
+      'Remote device management systems',
+    ],
+    accent: '#7B9E73',
   },
   {
     id: 'security',
     title: 'Compliance & Security',
+    Icon: ShieldHalf,
+    summary: 'Embedded Zero-Trust framework designed directly into system architecture.',
     description:
-      'We architect security into every layer — from zero-trust network segmentation and identity management to compliance frameworks and OT/IT convergence security for critical national infrastructure.',
-    icon: ShieldCheck,
+      'We embed zero-trust frameworks, strict governance, and operational resilience directly into solutions from the initial blueprint step.',
     tags: ['Zero-trust architecture', 'OT/IT security', 'Compliance frameworks', 'Identity & access'],
-    accent: '#2F6F63',
+    deliverables: [
+      'Zero-Trust policy enforcement',
+      'OT/IT security segmenting',
+      'Continuous audit trail logging',
+    ],
+    accent: '#95c168',
   },
-
+  {
+    id: 'portals',
+    title: 'Digital Experience & Portals',
+    Icon: LayoutPanelLeft,
+    summary: 'Accessible, mission-ready web applications integrated directly into backend platforms.',
+    description:
+      'We design and build modern public portals and digital platforms that are fast, fully accessible (WCAG compliant), and natively hooked into enterprise core systems.',
+    tags: ['Website design', 'Portal development', 'Accessibility', 'Content-driven experiences'],
+    deliverables: [
+      'WCAG 2.1 AA accessibility compliance',
+      'Headless CMS integration',
+      'Secure citizen & partner portals',
+    ],
+    accent: '#7B9E73',
+  },
 ];
 
-// ─── How we deliver ───────────────────────────────────────────────────────────
-const delivery = [
+// ─── DELIVERY METHODOLOGY ─────────────────────────────────────────────────────
+const delivery: { number: string; title: string; description: string }[] = [
   {
     number: '01',
     title: 'Outcome-led from day one',
     description:
-      'We start every engagement by agreeing what success looks like in measurable terms — not just technical deliverables, but the operational and policy outcomes that matter to your organisation. Every architecture decision flows from that definition.',
-    icon: BarChart3,
+      'We define success in measurable terms before code is written, ensuring technical decisions directly support business and operational outcomes.',
   },
   {
     number: '02',
     title: 'Cross-sector pattern recognition',
     description:
-      'Over 20 years, working across digital government, energy grids, water utilities, and environmental agencies, we have built a deep library of what works in regulated, mission-critical environments — and what does not.',
-    icon: Globe2,
+      'Our deep experience across government, utilities, and infrastructure gives us a field-tested playbook for high-stakes digital execution.',
   },
   {
     number: '03',
     title: 'Secure and compliant by design',
     description:
-      'In the sectors we operate in, security and compliance are not afterthoughts. We embed governance frameworks, access controls, and auditability into solutions from the architecture phase — not the testing phase.',
-    icon: ShieldCheck,
+      'Security controls, data sovereignty, and auditability are baked into the core architecture rather than patched on at deployment.',
   },
 ];
 
+// ─── PAGE ─────────────────────────────────────────────────────────────────────
 export default function CapabilitiesPage() {
-  /* ── Brand-bar hero animation ──────────────────────────────────────────── */
-  const heroRef  = useRef<HTMLElement>(null);
-  const bar1Ref  = useRef<HTMLDivElement>(null);
-  const bar2Ref  = useRef<HTMLDivElement>(null);
-  const bar3Ref  = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const bar1Ref = useRef<HTMLDivElement>(null);
+  const bar2Ref = useRef<HTMLDivElement>(null);
+  const bar3Ref = useRef<HTMLDivElement>(null);
   const [barsAnimated, setBarsAnimated] = useState(false);
 
   useEffect(() => {
@@ -126,16 +178,15 @@ export default function CapabilitiesPage() {
     <main className="min-h-screen bg-[#F3F6EE] text-[#141c0d] font-manrope">
       <Navbar />
 
-      {/* ═══════════════════════════════════════════════════════════════════
-          HERO
-      ═══════════════════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════
+          HERO — untouched
+      ══════════════════════════════════════════════════════ */}
       <section
         ref={heroRef}
         className="w-full text-left relative overflow-hidden bg-gradient-to-br from-[#0B120E] via-[#2E4B30] to-[#0B120E] -mt-24 pt-36 pb-24 px-6 md:px-12 lg:px-20"
       >
-        {/* Brand bars */}
-        <div className="hidden lg:block absolute right-35 top-0 h-full pointer-events-none">
-          <div className="flex gap-4 h-full">
+        <div className="block absolute right-0 sm:right-2 lg:right-8 xl:right-12 top-0 h-full pointer-events-none opacity-100">
+          <div className="flex gap-2 sm:gap-3 lg:gap-4 h-full">
             {[
               'linear-gradient(180deg,#E0EAD2 0%,#C0D2AC 100%)',
               'linear-gradient(180deg,#9DB89A 0%,#7B9E73 100%)',
@@ -151,182 +202,174 @@ export default function CapabilitiesPage() {
           </div>
         </div>
 
-        <div className="relative z-10 pt-10 md:pt-16">
+        <div className="relative z-10 pt-6 md:pt-10">
           <p className="text-[#95c168] text-sm font-bold uppercase tracking-[0.25em] mb-4">
             Capabilities
           </p>
-          <h1 className="text-white font-poppins text-5xl md:text-6xl font-bold tracking-tight mb-6 max-w-3xl leading-[1.08]">
-            What we do — and how we do it
+          <h1 className="text-white font-poppins text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 mt-2 max-w-3xl leading-[1.08]">
+            Engineering the systems behind modern digital services
           </h1>
-          <p className="text-white/65 text-base md:text-lg max-w-2xl leading-relaxed">
-            Six technical disciplines. One delivery philosophy. Built for the complexity of
-            government, energy, water, and environmental systems.
+          <p className="text-white/60 text-base md:text-lg max-w-2xl leading-relaxed">
+            From secure integrations to polished digital experiences, we help organisations connect people, data, and operations in a way that is resilient, future-ready, and measurable.
           </p>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════════
-          INTRO STATEMENT
-      ═══════════════════════════════════════════════════════════════════ */}
-      <section className="bg-white px-6 md:px-12 lg:px-20 py-16 md:py-20 border-b border-[#141c0d]/8">
-        <div className="grid lg:grid-cols-[1fr_2fr] gap-10 lg:gap-20 items-start">
-          <div>
-            <p className="text-[#7B9E73] text-xs font-bold uppercase tracking-[0.2em] mb-3">
-              Our approach
-            </p>
-            <h2 className="font-poppins font-bold text-2xl md:text-3xl text-[#141c0d] leading-snug tracking-tight">
-              Integration is not a product.<br />It is an engineering discipline.
+      {/* ══════════════════════════════════════════════════════
+          ENGINEERING PHILOSOPHY — matches About "Core Values" dark section
+      ══════════════════════════════════════════════════════ */}
+      <section className="w-full bg-[#0B120E] py-20 px-6 md:px-12 lg:px-20">
+        <div className="max-w-full mx-auto">
+          {/* Header */}
+          <div className="mb-16">
+            <h4 className="text-[#95c168] font-semibold tracking-widest text-xl uppercase mb-4">
+              Our Engineering Philosophy
+            </h4>
+            <h2 className="text-white text-[24px] sm:text-3xl md:text-4xl lg:text-5xl leading-tight font-medium max-w-3xl font-poppins">
+              Integration is an engineering discipline, not a product add-on.
             </h2>
           </div>
-          <div className="space-y-4 text-[#4f564b] text-base md:text-[17px] leading-relaxed">
-            <p>
-              Accure has spent over two decades solving the problems that emerge when organisations
-              try to modernise critical systems without disrupting the operations that depend on
-              them. The challenge is never the technology alone — it is the governance, the legacy
-              data, the organisational change, and the regulatory constraints that surround it.
-            </p>
-            <p>
-              Our six capability areas cover the full technical stack that mission-critical
-              integration demands: from the architectural layer that connects systems, through the
-              cloud and data infrastructure that sustains them, to the IoT and telemetry networks
-              that feed them with real-world data — secured, monitored, and supported around the clock.
-            </p>
+
+          {/* 3-column divide — same pattern as Core Values */}
+          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/10">
+            {[
+              {
+                title: 'Outcome-Driven',
+                body: 'Designed for measurable performance metrics and long-term system longevity from the first line of architecture.',
+              },
+              {
+                title: 'Embedded Governance',
+                body: 'Security, compliance, and auditing mechanisms integrated into day-one code — not bolted on post-deployment.',
+              },
+              {
+                title: 'Scalable Support',
+                body: 'Practices structured to ease adoption, internal maintenance, and perpetual operational scaling.',
+              },
+            ].map(({ title, body }) => (
+              <div key={title} className="py-8 md:py-0 md:px-10 first:md:pl-0 last:md:pr-0">
+                <h3 className="text-[#95c168] text-xl sm:text-2xl font-semibold mb-4 font-poppins">
+                  {title}
+                </h3>
+                <p className="text-[#C6CCC1] text-base leading-relaxed font-light max-w-xs">
+                  {body}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════════
-          CAPABILITY CARDS
-      ═══════════════════════════════════════════════════════════════════ */}
-      <section className="px-6 py-20 md:px-12 lg:px-20">
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {capabilities.map((cap) => {
-            const Icon = cap.icon;
-            return (
+      {/* ══════════════════════════════════════════════════════
+          CAPABILITY EXPLORER — 6-card grid
+      ══════════════════════════════════════════════════════ */}
+      <section id="capability-grid" className="bg-[#F3F6EE] px-6 py-20 md:px-12 lg:px-20">
+        <div className="max-w-full mx-auto">
+          {/* Header */}
+          <div className="mb-14">
+            <h4 className="text-[#95c168] font-semibold tracking-widest text-xl uppercase mb-4">
+              Capabilities Ecosystem
+            </h4>
+            <h2 className="text-[#141c0d] text-[24px] sm:text-3xl md:text-4xl lg:text-5xl leading-tight font-medium max-w-3xl font-poppins">
+              Built for mission-critical digital infrastructure
+            </h2>
+          </div>
+
+          {/* 3-col card grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#141c0d]/10">
+            {capabilities.map((cap, idx) => (
               <div
                 key={cap.id}
-                id={cap.id}
-                className="group relative flex flex-col bg-white border border-[#141c0d]/10 p-8 scroll-mt-32 hover:shadow-[0_16px_48px_-16px_rgba(57,90,58,0.18)] hover:border-[#7B9E73]/35 transition-all duration-300"
+                className="bg-white group flex flex-col p-8 md:p-10 transition-colors duration-300 hover:bg-[#0B120E]"
               >
-                {/* Left accent border that fills on hover */}
-                <div
-                  className="absolute left-0 top-0 w-[3px] h-0 group-hover:h-full transition-all duration-500 ease-out"
-                  style={{ background: cap.accent }}
-                />
-
-                {/* Icon */}
-                <div
-                  className="w-12 h-12 flex items-center justify-center mb-6 shrink-0 transition-colors duration-300"
-                  style={{ background: cap.accent + '18' }}
-                >
-                  <Icon className="w-5 h-5" style={{ color: cap.accent }} />
+                {/* Index + icon row */}
+                <div className="flex items-start justify-between mb-8">
+                  <span className="font-poppins font-bold text-5xl leading-none text-[#141c0d]/8 group-hover:text-white/10 transition-colors duration-300 select-none">
+                    {String(idx + 1).padStart(2, '0')}
+                  </span>
+                  <div className="w-11 h-11 flex items-center justify-center bg-[#F3F6EE] group-hover:bg-[#2E4B30] transition-colors duration-300">
+                    <cap.Icon className="w-5 h-5 text-[#2E4B30] group-hover:text-[#95c168] transition-colors duration-300" />
+                  </div>
                 </div>
 
                 {/* Title */}
-                <h2 className="font-poppins font-bold text-xl text-[#141c0d] mb-3 tracking-tight">
+                <h3 className="font-poppins font-semibold text-xl text-[#141c0d] group-hover:text-white leading-snug mb-3 transition-colors duration-300">
                   {cap.title}
-                </h2>
-
-                {/* Description */}
-                <p className="text-sm md:text-[15px] leading-relaxed text-[#4f564b] mb-7 flex-1">
-                  {cap.description}
-                </p>
-
-                {/* Tag pills */}
-                <div className="flex flex-wrap gap-2 mt-auto">
-                  {cap.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-[#4f564b] bg-[#F3F6EE] border border-[#141c0d]/8"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════════════════
-          HOW WE DELIVER — 3-column numbered blocks on dark background
-      ═══════════════════════════════════════════════════════════════════ */}
-      <section className="bg-[#0B120E] px-6 md:px-12 lg:px-20 py-20 md:py-28">
-        <div className="mb-14">
-          <p className="text-[#95c168] text-xs font-bold uppercase tracking-[0.25em] mb-4">
-            How we deliver
-          </p>
-          <h2 className="font-poppins font-bold text-3xl md:text-4xl text-white tracking-tight max-w-xl leading-snug">
-            A practical approach rooted in delivery and trust
-          </h2>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-px bg-white/8">
-          {delivery.map((item) => {
-            const Icon = item.icon;
-            return (
-              <div key={item.number} className="bg-[#0B120E] p-8 md:p-10 group">
-                {/* Number */}
-                <p className="font-poppins font-bold text-5xl text-white/8 mb-6 leading-none select-none">
-                  {item.number}
-                </p>
-
-                {/* Icon */}
-                <div className="w-10 h-10 flex items-center justify-center bg-[#2E4B30] mb-6">
-                  <Icon className="w-5 h-5 text-[#95c168]" />
-                </div>
-
-                {/* Content */}
-                <h3 className="font-poppins font-bold text-white text-xl mb-3 leading-snug">
-                  {item.title}
                 </h3>
-                <p className="text-sm leading-relaxed text-white/55">
-                  {item.description}
+
+                {/* Summary */}
+                <p className="text-[#4f564b] group-hover:text-[#C6CCC1] text-[15px] leading-7 mb-8 flex-1 transition-colors duration-300">
+                  {cap.summary}
+                </p>
+
+                {/* Deliverables */}
+                <ul className="space-y-2 mb-8">
+                  {cap.deliverables.map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-sm text-[#333] group-hover:text-white/70 transition-colors duration-300">
+                      <span
+                        className="mt-[7px] shrink-0 w-1.5 h-1.5"
+                        style={{ background: cap.accent }}
+                      />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Tags */}
+                <div className="pt-6 border-t border-[#141c0d]/8 group-hover:border-white/10 transition-colors duration-300">
+                  <div className="flex flex-wrap gap-1.5">
+                    {cap.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#2f342d] group-hover:text-white/60 bg-[#F3F6EE] group-hover:bg-white/5 border border-[#141c0d]/10 group-hover:border-white/10 transition-colors duration-300"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════
+          DELIVERY METHODOLOGY — white bg, no icons
+      ══════════════════════════════════════════════════════ */}
+      <section className="w-full bg-white py-20 px-6 md:px-12 lg:px-20 border-t border-[#141c0d]/8">
+        <div className="max-w-full mx-auto">
+          {/* Header */}
+          <div className="mb-16">
+            <h4 className="text-[#95c168] font-semibold tracking-widest text-xl uppercase mb-4">
+              Delivery Methodology
+            </h4>
+            <h2 className="text-[#141c0d] text-[24px] sm:text-3xl md:text-4xl lg:text-5xl leading-tight font-medium max-w-3xl font-poppins">
+              Execution rooted in clarity, strict compliance, and reliability
+            </h2>
+          </div>
+
+          {/* 3-column divide — same pattern as Core Values / About */}
+          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#141c0d]/10">
+            {delivery.map(({ number, title, description }) => (
+              <div key={number} className="py-8 md:py-0 md:px-10 first:md:pl-0 last:md:pr-0">
+                <p className="font-poppins font-bold text-6xl leading-none text-[#141c0d]/8 mb-6 select-none">
+                  {number}
+                </p>
+                <h3 className="text-[#395A3A] text-xl sm:text-2xl font-semibold mb-4 font-poppins">
+                  {title}
+                </h3>
+                <p className="text-[#4f564b] text-base leading-relaxed font-light max-w-xs">
+                  {description}
                 </p>
               </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════════════════
-          SECTORS BRIDGE — links to the sectors page
-      ═══════════════════════════════════════════════════════════════════ */}
-      <section className="bg-[#F3F6EE] px-6 md:px-12 lg:px-20 py-16 md:py-20 border-t border-[#141c0d]/8">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
-          <div className="max-w-xl">
-            <p className="text-[#7B9E73] text-xs font-bold uppercase tracking-[0.2em] mb-3">
-              Where we apply these capabilities
-            </p>
-            <h2 className="font-poppins font-bold text-2xl md:text-3xl text-[#141c0d] leading-snug tracking-tight mb-4">
-              Five sectors. Each one with its own complexity.
-            </h2>
-            <p className="text-[#4f564b] text-base leading-relaxed">
-              Digital governance, enterprise IT, smart energy, water &amp; hydromet, and
-              environmental management — see how these capabilities are applied sector by sector.
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-4 lg:shrink-0">
-            <Link
-              href="/sectors"
-              className="group inline-flex items-center gap-3 px-8 py-4 bg-[#395A3A] text-white font-semibold text-sm transition-all duration-300 hover:bg-[#2E4B30] hover:shadow-xl hover:shadow-black/20"
-            >
-              Explore sectors
-              <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Link>
-            <Link
-              href="/contact"
-              className="group inline-flex items-center gap-3 px-8 py-4 border-2 border-[#141c0d]/20 text-[#141c0d] font-semibold text-sm transition-all duration-300 hover:border-[#395A3A] hover:text-[#395A3A]"
-            >
-              Talk to our team
-            </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      <Footer showConsultationSection={true} />
+     
+      <Footer showConsultationSection={false} />
     </main>
   );
 }
+

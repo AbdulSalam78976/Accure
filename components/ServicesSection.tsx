@@ -12,7 +12,7 @@ const services = [
   {
     title: 'System Integration',
     description: 'Connect legacy mainframes, modern SaaS tools, and public-sector platforms through a single, governed API layer.',
-    image: '/images/system.jfif',
+    image: '/images/system.jpg',
   },
   {
     title: 'Cloud & Infrastructure',
@@ -22,7 +22,7 @@ const services = [
   {
     title: 'Data and Analytics',
     description: 'Turn raw telemetry and operational data into real-time dashboards, forecasts, and regulatory reporting.',
-    image: '/images/data.jfif',
+    image: '/images/data.jpg',
   },
   {
     title: 'IoT & Telemetry',
@@ -32,7 +32,7 @@ const services = [
   {
     title: 'Compliance & Security',
     description: 'Zero-trust access control, encryption, and audit trails built to meet ISO 27001, SOC 2, and public-sector standards.',
-    image: '/images/compliance.jpg',
+    image: '/images/security.jpg',
   },
   
 ];
@@ -58,7 +58,7 @@ export default function ServicesSection() {
           <div className="max-w-full mx-auto px-4 sm:px-8" ref={headerRef}>
             {/* Section Header */}
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-              <h2 className="font-poppins font-bold text-3xl sm:text-4xl leading-tight">
+              <h2 className="font-poppins font-medium text-[32px] sm:text-[50px] leading-tight">
                 <VerticalCutReveal
                   ref={revealRef}
                   autoStart={false}
@@ -97,6 +97,7 @@ export default function ServicesSection() {
               src={service.image}
               alt={service.title}
               fill
+              sizes="260px"
               className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110"
             />
 
@@ -147,7 +148,7 @@ export default function ServicesSection() {
                 </div>
               </div>
 
-              <h3 className="font-poppins font-bold text-2xl sm:text-[28px] leading-tight">
+              <h3 className="font-poppins font-medium text-xl sm:text-[28px] leading-tight">
                 {service.title}
               </h3>
 

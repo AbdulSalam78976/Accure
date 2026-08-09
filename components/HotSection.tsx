@@ -81,9 +81,9 @@ export default function HotTopicsSection() {
   };
 
   return (
-    <section className="relative bg-white text-[#141c0d] py-16 md:py-20 overflow-hidden">
-      <div className="max-w-full mx-auto px-6 lg:px-16 xl:px-24">
-        <h2 className="font-poppins text-3xl md:text-4xl font-bold tracking-tight mb-12 md:mb-16 text-[#141c0d]">
+    <section className="relative bg-white text-[#141c0d] py-14 sm:py-16 md:py-20 overflow-hidden">
+      <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-16 xl:px-24">
+        <h2 className="font-poppins text-2xl sm:text-[40px] md:text-[50px] font-medium tracking-tight mb-8 sm:mb-10 md:mb-16 text-[#141c0d]">
           Hot Topics
         </h2>
 
@@ -94,17 +94,17 @@ export default function HotTopicsSection() {
           {topics.map((topic) => (
             <div key={topic.id} data-topic-card className="shrink-0 snap-start w-[260px] sm:w-[300px] flex flex-col">
               <img src={topic.iconSrc} alt="" aria-hidden="true" className="w-18 h-18 mb-8 object-contain" />
-              <h3 className="font-poppins font-bold text-xl md:text-2xl leading-snug mb-3 text-[#141c0d]">
+              <h3 className="font-poppins font-bold text-lg sm:text-xl md:text-2xl leading-snug mb-3 text-[#141c0d]">
                 {topic.title}
               </h3>
-              <p className="text-sm md:text-[15px] leading-relaxed text-[#4f564b] mb-6">
+              <p className="text-sm sm:text-[15px] leading-relaxed text-[#4f564b] mb-6">
                 {topic.description}
               </p>
               <a
                 href={topic.externalHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 px-8 py-4 bg-[#395A3A] text-white font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#7B9E73] hover:shadow-xl hover:shadow-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C6D6B4] focus-visible:ring-offset-2 focus-visible:ring-offset-[#2E4B30] self-start mt-auto"
+                className="group inline-flex items-center justify-center gap-2 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 bg-[#2E4B30] text-sm sm:text-[15px] md:text-base text-white font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#a6d278] hover:text-[#141c0d] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C6D6B4] focus-visible:ring-offset-2 focus-visible:ring-offset-white self-start mt-auto"
               >
                 {CTA_LABEL}
                 <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

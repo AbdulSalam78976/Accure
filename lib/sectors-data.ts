@@ -18,7 +18,10 @@ export interface SectorData {
   href: string;
   description: string;
   icon: LucideIcon;
-  image: string;
+  image: string;          // hero image
+  introImage: string;     // intro split section image (must differ from hero)
+  introHeading: string;   // unique h2 for the split section
+  introBody: string[];    // 2 paragraphs of unique editorial copy
   accent: string;
   checklist: string[];
   checklistDescriptions: string[];
@@ -34,7 +37,13 @@ export const sectors: SectorData[] = [
     description:
       'We design secure, policy-ready digital services for government and public institutions — from citizen identity to compliant, governed data platforms.',
     icon: Landmark,
-    image: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&q=80&w=1200',
+    image: '/images/digital-gov.png',
+    introImage: '/images/gov.jpg',
+    introHeading: 'Modernising public services without breaking what works',
+    introBody: [
+      'Government agencies face a unique challenge: they must transform their digital services to meet citizen expectations while preserving the policy controls, audit trails, and security frameworks that protect public trust. Accure specialises in this balance — delivering modern, accessible service interfaces that sit on top of governed, compliant data architecture.',
+      'Our engagements typically begin with a thorough mapping of existing systems, integration points, and regulatory obligations. We then design a phased modernisation roadmap that avoids big-bang disruption — letting agencies launch new digital capabilities incrementally while continuing to operate and improve legacy services in parallel.',
+    ],
     accent: '#243A1E',
     checklist: [
       'Secure citizen portals & service journeys',
@@ -95,7 +104,13 @@ export const sectors: SectorData[] = [
     description:
       'We simplify complex technology estates with resilient cloud, networking, and operations strategies that keep business-critical services running.',
     icon: Server,
-    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=1200',
+    image: '/images/IT&Cloud.jpg',
+    introImage: '/images/data-center.jfif',
+    introHeading: 'Infrastructure that scales with your ambition',
+    introBody: [
+      'Legacy technology estates built for a pre-cloud era are often the single biggest barrier to enterprise agility. Accure works with CIOs and infrastructure leaders to rationalise complex environments — consolidating sprawl, eliminating single points of failure, and creating platform foundations that support rapid application delivery without compromising security or compliance.',
+      'We bring deep experience in regulated industries where downtime is not an option. Whether the challenge is migrating a mission-critical workload to the cloud, implementing zero-trust network segmentation, or standing up a 24/7 managed operations capability, we design for resilience first and optimise for cost and performance from there.',
+    ],
     accent: '#395A3A',
     checklist: [
       'Hybrid & multi-cloud architecture',
@@ -156,7 +171,13 @@ export const sectors: SectorData[] = [
     description:
       'We help utilities and energy operators gain visibility and resilience through analytics, control systems, and connected field devices.',
     icon: Zap,
-    image: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&q=80&w=1200',
+    image: '/images/envoirnment.jpg',
+    introImage: '/images/SmartGrid1.jpg',
+    introHeading: 'Connecting the grid — from generation to the consumer',
+    introBody: [
+      'Energy systems are undergoing their most significant structural change in a century. Distributed generation, battery storage, and real-time demand response are replacing the centralised, predictable model that grid operators have managed for decades. Accure helps utilities and system operators build the digital infrastructure to manage this complexity — integrating IoT telemetry, AI-driven analytics, and modern SCADA platforms into coherent operational systems.',
+      'Our energy clients benefit from our cross-domain experience — combining OT systems knowledge with enterprise IT and data engineering capability. We understand the reliability requirements of critical energy infrastructure and design solutions that meet them, while giving operators the operational intelligence they need to confidently manage an increasingly dynamic grid.',
+    ],
     accent: '#4C7A38',
     checklist: [
       'AI-driven demand forecasting',
@@ -217,7 +238,13 @@ export const sectors: SectorData[] = [
     description:
       'We combine sensing, analytics, and decision support so water and weather organisations can respond faster and operate with confidence.',
     icon: Droplets,
-    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&q=80&w=1200',
+    image: '/images/hydromet.jpg',
+    introImage: '/images/water.jpg',
+    introHeading: 'From raw sensor data to confident operational decisions',
+    introBody: [
+      'Water and weather organisations sit at the intersection of environmental science and operational technology. They need systems that are scientifically rigorous — capable of ingesting, quality-controlling, and modelling vast sensor datasets — but also operationally robust, with the uptime and alerting reliability that emergency response depends on. Accure builds both layers as an integrated whole.',
+      'We have delivered hydromet platforms for national meteorological agencies, river basin authorities, and water utilities across multiple regions. Our solutions connect field sensing infrastructure to centralised data platforms, hydrological models, and citizen-facing early warning channels — giving every stakeholder in the water management chain the information they need, at the time they need it.',
+    ],
     accent: '#2F6F63',
     checklist: [
       'Real-time sensor integration',
@@ -278,7 +305,13 @@ export const sectors: SectorData[] = [
     description:
       'We turn monitoring, reporting, and compliance data into practical sustainability programmes and informed decisions.',
     icon: Leaf,
-    image: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=80&w=1200',
+    image: '/images/envoirnment1.png',
+    introImage: '/images/envoir.webp',
+    introHeading: 'Turning environmental data into measurable accountability',
+    introBody: [
+      'Governments, regulators, and enterprises increasingly face binding obligations to monitor, report, and act on environmental performance. But many organisations lack the data infrastructure to do this credibly — relying on manual collection, fragmented systems, and report-generation processes that cannot keep pace with regulatory timelines or stakeholder scrutiny. Accure builds the platforms that close that gap.',
+      'Our environmental management solutions connect monitoring networks, satellite feeds, and operational data into unified platforms that produce audit-ready outputs at the cadence regulators and investors require. We work closely with environmental scientists and compliance teams to ensure our systems reflect the domain accurately — producing data that is not just technically correct, but defensible under scrutiny.',
+    ],
     accent: '#6EA24A',
     checklist: [
       'Environmental monitoring & reporting',

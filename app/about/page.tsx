@@ -192,8 +192,8 @@ export default function AboutPage() {
           <Navbar />
 
           {/* ACCURE BRAND BARS - ANIMATED FROM TOP TO BOTTOM */}
-          <div className="hidden lg:block absolute right-35 top-0 h-full">
-            <div className="flex gap-4 h-full">
+          <div className="block absolute right-0 sm:right-2 lg:right-8 xl:right-12 top-0 h-full pointer-events-none opacity-100">
+            <div className="flex gap-2 sm:gap-3 lg:gap-4 h-full">
               {/* Bar 1 */}
               <div
                 ref={bar1Ref}
@@ -236,11 +236,10 @@ export default function AboutPage() {
           </div>
 
           <div className="relative z-10 max-w-full mx-auto pt-12">
-            <h2 className="text-[#95c168] uppercase  text-xl  font-medium tracking-tight mb-6 md:mb-8 max-w-3xl">
-              about accure
-            </h2>
-
-            <p className="text-white/80 text-base md:text-lg mb-8 max-w-3xl leading-relaxed">
+            <p className="text-[#95c168] text-sm font-bold uppercase tracking-[0.25em] mb-4">
+              About Accure
+            </p>
+            <p className="text-white/80 text-base md:text-lg mb-8 max-w-3xl leading-relaxed font-light">
               Accure is a global system integration leader specializing in unifying digital governance, enterprise IT, smart energy grids, hydromet weather monitoring, and environmental management systems. We empower public sector institutions and forward-thinking enterprises to modernize critical infrastructure, automate complex workflows, and achieve operational resilience.
             </p>
           </div>
@@ -254,16 +253,16 @@ export default function AboutPage() {
               <h4 className="text-[#95c168] font-semibold tracking-widest text-xl uppercase mb-4">
                 Our Core Values
               </h4>
-              <h2 className="text-white text-3xl md:text-4xl lg:text-5xl leading-tight font-light max-w-3xl font-poppins">
+              <h2 className="text-white text-[24px] sm:text-3xl md:text-4xl lg:text-5xl leading-tight font-medium max-w-3xl font-poppins">
                 We master the power of technology to engineer bespoke system integration solutions for our clients, guided by three core values:
               </h2>
             </div>
 
             {/* --- VALUES GRID SECTION (ORIGINAL DIVIDED LAYOUT WITH BRAND COLORS) --- */}
-            <div className="grid grid-cols-1 md:grid-cols-3 divide-x md:divide-y-0 md:divide-x divide-white  border-t border-white/10 md:border-t-0">
+            <div className="grid grid-cols-3 divide-x divide-white/10">
               {/* Value 1: Integrity */}
               <div className="py-8 md:py-0 md:pr-10 md:pl-0 pl-0 first:pt-0 last:pb-0">
-                <h3 className="text-[#95c168] text-2xl font-semibold mb-4 font-poppins">Integrity</h3>
+                <h3 className="text-[#95c168] text-xl sm:text-2xl font-semibold mb-4 font-poppins">Integrity</h3>
                 <p className="text-[#C6CCC1] text-base leading-relaxed font-light max-w-xs">
                   Embody dependability, strict regulatory compliance, and complete operational transparency.
                 </p>
@@ -271,7 +270,7 @@ export default function AboutPage() {
 
               {/* Value 2: Innovation */}
               <div className="py-8 md:py-0 md:px-10 pl-0 first:pt-0 last:pb-0">
-                <h3 className="text-[#95c168] text-2xl font-semibold mb-4 font-poppins">Innovation</h3>
+                <h3 className="text-[#95c168] text-xl sm:text-2xl font-semibold mb-4 font-poppins">Innovation</h3>
                 <p className="text-[#C6CCC1] text-base leading-relaxed font-light max-w-xs">
                   Act courageously, pioneer real-time telemetry architectures, and implement bold technology solutions.
                 </p>
@@ -279,7 +278,7 @@ export default function AboutPage() {
 
               {/* Value 3: Dedication */}
               <div className="py-8 md:py-0 md:pl-10 pl-0 first:pt-0 last:pb-0">
-                <h3 className="text-[#95c168] text-2xl font-semibold mb-4 font-poppins">Dedication</h3>
+                <h3 className="text-[#95c168] text-xl sm:text-2xl font-semibold mb-4 font-poppins">Dedication</h3>
                 <p className="text-[#C6CCC1] text-base leading-relaxed font-light max-w-xs">
                   Commit to 99.99% operational uptime, continuous support, and precision engineering.
                 </p>
@@ -289,14 +288,12 @@ export default function AboutPage() {
         </section>
 
         {/* THE SYSTEMS WAY SECTION */}
-        <section className="relative w-full bg-[#0B2036] py-20 px-4 md:px-8 lg:px-16 overflow-hidden">
+        <section className="relative w-full bg-[#0B120E] py-20 px-4 md:px-8 lg:px-16 overflow-hidden">
           <div
-            className="absolute inset-0 z-0 bg-gradient-to-b from-[#122b45] to-[#0a1c2e] bg-cover bg-center"
-            style={{
-              backgroundImage: "url('/images/about-1.jpg')",
-            }}
+            className="absolute inset-0 z-0 bg-cover bg-center"
+            style={{ backgroundImage: "url('/images/about-1.jpg')" }}
           >
-            <div className="absolute inset-0 bg-[#0B2036]/85 mix-blend-multiply"></div>
+            <div className="absolute inset-0 bg-[#0B120E]/85"></div>
           </div>
 
           <div className="relative z-10 max-w-7xl mx-auto flex flex-col items-center">
@@ -305,7 +302,7 @@ export default function AboutPage() {
               <h4 className="text-[#95c168] font-semibold tracking-wider text-xl uppercase mb-4">
                 The Accure's Way
               </h4>
-              <h2 className="text-white text-3xl md:text-4xl lg:text-5xl leading-snug font-light font-poppins">
+              <h2 className="text-white text-[24px] sm:text-3xl md:text-4xl lg:text-5xl leading-snug font-medium font-poppins">
                 As a premier system integration partner, we are uniquely equipped to modernize, connect, and scale mission-critical public and enterprise infrastructure.
               </h2>
             </div>
@@ -316,7 +313,7 @@ export default function AboutPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 w-full max-w-5xl text-center">
               {/* Column 1: Optimize */}
               <div className="flex flex-col items-center">
-                <h3 className="text-[#95c168] text-3xl md:text-4xl font-light mb-4 font-poppins">Optimize</h3>
+                <h3 className="text-[#95c168] text-[22px] sm:text-3xl md:text-4xl font-light mb-4 font-poppins">Optimize</h3>
                 <p className="text-[#C6CCC1] text-sm md:text-base leading-relaxed max-w-xs">
                   We leverage customer-centric talent, advanced telemetry, and cloud technology to streamline operations for higher enterprise efficiency.
                 </p>
@@ -324,7 +321,7 @@ export default function AboutPage() {
 
               {/* Column 2: Transform */}
               <div className="flex flex-col items-center">
-                <h3 className="text-[#95c168] text-3xl md:text-4xl font-light mb-4 font-poppins">Transform</h3>
+                <h3 className="text-[#95c168] text-[22px] sm:text-3xl md:text-4xl font-light mb-4 font-poppins">Transform</h3>
                 <p className="text-[#C6CCC1] text-sm md:text-base leading-relaxed max-w-xs">
                   We reimagine monolithic systems and legacy workflows by engineering modular, API-first solutions for superior operational value.
                 </p>
@@ -332,7 +329,7 @@ export default function AboutPage() {
 
               {/* Column 3: Scale */}
               <div className="flex flex-col items-center">
-                <h3 className="text-[#95c168] text-3xl md:text-4xl font-light mb-4 font-poppins">Scale</h3>
+                <h3 className="text-[#95c168] text-[22px] sm:text-3xl md:text-4xl font-light mb-4 font-poppins">Scale</h3>
                 <p className="text-[#C6CCC1] text-sm md:text-base leading-relaxed max-w-xs">
                   We empower future-ready public and private institutions with long-term growth, automated observability, and perpetual innovation.
                 </p>
@@ -346,7 +343,7 @@ export default function AboutPage() {
           <div className="max-w-[1500px] mx-auto">
             {/* CENTER TOP HEADING */}
             <div className="text-center  max-w-2xl mx-auto px-4">
-              <h2 className="text-[#395A3A]  text-2xl sm:text-3xl lg:text-4xl leading-snug font-normal">
+              <h2 className="text-[#395A3A] text-[22px] sm:text-3xl lg:text-4xl leading-snug font-medium">
                 Achieving sustainable progress through collaborative innovation and shared expertise
               </h2>
             </div>

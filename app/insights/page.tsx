@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Newspaper } from 'lucide-react';
@@ -55,8 +55,8 @@ export default function InsightsPage() {
         className="w-full relative overflow-hidden bg-gradient-to-br from-[#0B120E] via-[#2E4B30] to-[#0B120E] -mt-24 pt-36 pb-20 px-6 md:px-12 lg:px-20"
       >
         {/* Brand bars */}
-        <div className="hidden lg:block absolute right-35 top-0 h-full pointer-events-none">
-          <div className="flex gap-4 h-full">
+        <div className="block absolute right-0 sm:right-2 lg:right-8 xl:right-12 top-0 h-full pointer-events-none opacity-100">
+          <div className="flex gap-2 sm:gap-3 lg:gap-4 h-full">
             {[
               'linear-gradient(180deg,#E0EAD2 0%,#C0D2AC 100%)',
               'linear-gradient(180deg,#9DB89A 0%,#7B9E73 100%)',
@@ -77,7 +77,7 @@ export default function InsightsPage() {
           <p className="text-[#95c168] text-sm font-bold uppercase tracking-[0.25em] mb-4">
             Insights
           </p>
-          <h1 className="text-white font-poppins text-5xl md:text-6xl font-bold tracking-tight mb-5 max-w-3xl leading-[1.08]">
+          <h1 className="text-white font-poppins text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight mb-5 max-w-3xl leading-[1.08]">
             Perspectives on the<br className="hidden md:block" /> systems we build
           </h1>
           <p className="text-white/60 text-base md:text-lg max-w-xl leading-relaxed">
@@ -95,10 +95,10 @@ export default function InsightsPage() {
 
         <div className="flex items-end justify-between gap-6 mb-10">
           <div>
-            <p className="text-[#7B9E73] text-xs font-bold uppercase tracking-[0.2em] mb-2">
+            <p className="text-[#95c168] text-xs font-bold uppercase tracking-[0.2em] mb-2">
               Reports & Research
             </p>
-            <h2 className="font-poppins font-bold text-3xl md:text-4xl text-[#141c0d] tracking-tight">
+            <h2 className="font-poppins font-medium text-3xl md:text-4xl text-[#141c0d] tracking-tight">
               From the knowledge base
             </h2>
           </div>
@@ -156,10 +156,10 @@ export default function InsightsPage() {
 
         <div className="flex items-end justify-between gap-6 mb-10">
           <div>
-            <p className="text-[#7B9E73] text-xs font-bold uppercase tracking-[0.2em] mb-2">
+            <p className="text-[#95c168] text-xs font-bold uppercase tracking-[0.2em] mb-2">
               Industry News
             </p>
-            <h2 className="font-poppins font-bold text-3xl md:text-4xl text-[#141c0d] tracking-tight">
+            <h2 className="font-poppins font-medium text-3xl md:text-4xl text-[#141c0d] tracking-tight">
               What&apos;s happening in the sectors
             </h2>
           </div>
@@ -211,3 +211,4 @@ export default function InsightsPage() {
     </div>
   );
 }
+
