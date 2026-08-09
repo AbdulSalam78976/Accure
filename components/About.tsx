@@ -2,9 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-// =========================================
-// TYPESCRIPT INTERFACES
-// =========================================
+// ─── TYPES ────────────────────────────────────────────────────────────────────
 interface CounterProps {
   to: number;
   suffix?: string;
@@ -18,237 +16,161 @@ interface StatData {
   title: string;
 }
 
-// =========================================
-// ANIMATED COUNTER COMPONENT
-// =========================================
+// ─── ANIMATED COUNTER ────────────────────────────────────────────────────────
 function Counter({ to, suffix = '', trigger, duration = 1.5 }: CounterProps) {
-  const [count, setCount] = useState<number>(0);
+  const [count, setCount] = useState(0);
   const startTimeRef = useRef<number | null>(null);
-  const animationFrameRef = useRef<number | null>(null);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!trigger || count === to) return;
 
-    const startAnimation = (timestamp: number) => {
-      if (!startTimeRef.current) {
-        startTimeRef.current = timestamp;
-      }
-
-      const elapsed = timestamp - startTimeRef.current;
-      const progress = Math.min(elapsed / (duration * 1000), 1);
-
-      // Smooth ease-out deceleration
-      const easeOutCubic = 1 - Math.pow(1 - progress, 3);
-      const currentCount = Math.round(easeOutCubic * to);
-
-      setCount(currentCount);
-
-      if (progress < 1) {
-        animationFrameRef.current = requestAnimationFrame(startAnimation);
-      } else {
-        setCount(to); // Ensure it lands perfectly
-      }
+    const animate = (ts: number) => {
+      if (!startTimeRef.current) startTimeRef.current = ts;
+      const progress = Math.min((ts - startTimeRef.current) / (duration * 1000), 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(ease * to));
+      if (progress < 1) rafRef.current = requestAnimationFrame(animate);
+      else setCount(to);
     };
 
-    animationFrameRef.current = requestAnimationFrame(startAnimation);
-
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
+    rafRef.current = requestAnimationFrame(animate);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
   }, [trigger, to, duration, count]);
 
-  return <span>{count}{suffix}</span>;
+  return <>{count}{suffix}</>;
 }
 
-// =========================================
-// MAIN COMPONENT
-// =========================================
-export default function AIAdvantageSection() {
+// ─── MAIN COMPONENT ──────────────────────────────────────────────────────────
+export default function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [barsAnimated, setBarsAnimated] = useState(false);
-
-  // Individual refs for each horizontal bar
   const bar1Ref = useRef<HTMLDivElement>(null);
   const bar2Ref = useRef<HTMLDivElement>(null);
   const bar3Ref = useRef<HTMLDivElement>(null);
+  const [barsAnimated, setBarsAnimated] = useState(false);
 
-  // Intersection Observer for the brand bars, animate horizontal bars from left to right
+  const statRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [visibleStats, setVisibleStats] = useState([false, false, false, false]);
+
+  // Animate horizontal bars on scroll
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !barsAnimated) {
-            if (bar1Ref.current) bar1Ref.current.style.width = '100%';
-            setTimeout(() => {
-              if (bar2Ref.current) bar2Ref.current.style.width = '100%';
-            }, 200);
-            setTimeout(() => {
-              if (bar3Ref.current) bar3Ref.current.style.width = '100%';
-            }, 400);
-            setBarsAnimated(true);
-          } else if (!entry.isIntersecting) {
-            if (bar1Ref.current) bar1Ref.current.style.width = '0%';
-            if (bar2Ref.current) bar2Ref.current.style.width = '0%';
-            if (bar3Ref.current) bar3Ref.current.style.width = '0%';
-            setBarsAnimated(false);
-          }
-        });
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !barsAnimated) {
+          if (bar1Ref.current) bar1Ref.current.style.width = '100%';
+          setTimeout(() => { if (bar2Ref.current) bar2Ref.current.style.width = '100%'; }, 200);
+          setTimeout(() => { if (bar3Ref.current) bar3Ref.current.style.width = '100%'; }, 400);
+          setBarsAnimated(true);
+        } else if (!entry.isIntersecting) {
+          [bar1Ref, bar2Ref, bar3Ref].forEach(r => { if (r.current) r.current.style.width = '0%'; });
+          setBarsAnimated(false);
+        }
       },
       { threshold: 0.2 }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
+    if (sectionRef.current) obs.observe(sectionRef.current);
+    return () => { if (sectionRef.current) obs.unobserve(sectionRef.current); };
   }, [barsAnimated]);
 
-  // Individual triggers for each stat to create scroll reveal effect
-  const statRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [visibleStats, setVisibleStats] = useState<boolean[]>([false, false, false, false]);
-
+  // Animate each stat counter when it enters viewport
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
-
-    statRefs.current.forEach((ref, index) => {
+    statRefs.current.forEach((ref, i) => {
       if (!ref) return;
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setVisibleStats((prev) => {
-                const newState = [...prev];
-                newState[index] = true;
-                return newState;
-              });
-            }
-          });
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting)
+            setVisibleStats(prev => { const n = [...prev]; n[i] = true; return n; });
         },
-        { threshold: 0.5, rootMargin: '0px 0px -50px 0px' }
+        { threshold: 0.4 }
       );
-
-      observer.observe(ref);
-      observers.push(observer);
+      obs.observe(ref);
+      observers.push(obs);
     });
-
-    return () => {
-      observers.forEach((observer) => observer.disconnect());
-    };
+    return () => observers.forEach(o => o.disconnect());
   }, []);
 
-  // Data for the 4 stats
   const stats: StatData[] = [
     { number: 20, suffix: '+', title: 'Years of continual excellence' },
-    { number: 5, suffix: '+', title: 'Industries we have served with AI-led transformation' },
+    { number: 5,  suffix: '+', title: 'Industries served with AI-led transformation' },
     { number: 100, suffix: '+', title: 'Team members across the globe' },
-    { number: 4, suffix: '+', title: 'Countries with our presence and clientele' },
+    { number: 4,  suffix: '+', title: 'Countries with our presence' },
   ];
 
   return (
-    <section id="why-accure" ref={sectionRef} className="w-full bg-white py-8 sm:py-10 overflow-hidden relative">
-      <div className="max-w-full mx-auto relative px-4 sm:px-6 md:px-12 lg:px-20">
-        {/* ===== HEADER SECTION ===== */}
-        <div className="mb-7 md:mb-8 max-w-2xl">
-          <h2 className="text-[#1A201B] text-[26px] sm:text-[40px] lg:text-[50px] font-medium leading-[1.1] tracking-tight mb-5">
-            From digital change to <br />
-            AI-powered advantage
+    <section
+      id="why-accure"
+      ref={sectionRef}
+      className="w-full bg-white overflow-hidden"
+    >
+      {/* ── Header ───────────────────────────────────────────────────────── */}
+      <div className="px-5 sm:px-8 md:px-12 lg:px-20 pt-12 sm:pt-16 pb-8 sm:pb-10">
+        <div className="max-w-2xl">
+          <h2 className="text-[#1A201B] font-poppins font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-[1.12] tracking-tight mb-4">
+            From digital change to{' '}
+            <span className="block">AI-powered advantage</span>
           </h2>
-          <p className="text-[#5A6A5C] text-sm sm:text-base md:text-lg leading-relaxed max-w-xl">
-            We help enterprises reimagine how they work, serve, and grow with AI-led transformation that turns complexity into clarity and ambition into measurable progress.
+          <p className="text-[#5A6A5C] text-sm sm:text-base leading-relaxed max-w-xl">
+            We help enterprises reimagine how they work, serve, and grow — turning complexity into clarity and ambition into measurable progress.
           </p>
         </div>
       </div>
 
-      {/* ===== ACCURE BRAND BARS ===== */}
-      <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen mb-10">
-        <div className="flex flex-col gap-3">
-          {[
-            'linear-gradient(90deg,#E0EAD2 0%,#C0D2AC 100%)',
-            'linear-gradient(90deg,#9DB89A 0%,#7B9E73 100%)',
-            'linear-gradient(90deg,#4C6E4F 0%,#2E4B30 100%)',
-          ].map((bg, i) => (
-            <div key={i} className="w-full h-10 overflow-hidden">
-              <div
-                ref={[bar1Ref, bar2Ref, bar3Ref][i]}
-                className="h-full"
-                style={{
-                  width: '0%',
-                  background: bg,
-                  transitionProperty: 'width',
-                  transitionDuration: '1.2s',
-                  transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
-                }}
-              />
+      {/* ── Animated brand bars (full-bleed) ─────────────────────────────── */}
+      <div className="w-full mb-10 sm:mb-12 flex flex-col gap-2 sm:gap-3">
+        {[
+          { bg: 'linear-gradient(90deg,#E0EAD2 0%,#C0D2AC 100%)', ref: bar1Ref },
+          { bg: 'linear-gradient(90deg,#9DB89A 0%,#7B9E73 100%)', ref: bar2Ref },
+          { bg: 'linear-gradient(90deg,#4C6E4F 0%,#2E4B30 100%)', ref: bar3Ref },
+        ].map(({ bg, ref }, i) => (
+          <div key={i} className="w-full h-8 sm:h-10 overflow-hidden">
+            <div
+              ref={ref}
+              className="h-full"
+              style={{
+                width: '0%',
+                background: bg,
+                transition: 'width 1.2s cubic-bezier(0.25,0.1,0.25,1)',
+              }}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* ── Stats grid ───────────────────────────────────────────────────── */}
+      <div className="px-5 sm:px-8 md:px-12 lg:px-20 pb-12 sm:pb-16">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10 sm:gap-x-10 sm:gap-y-12">
+          {stats.map((stat, i) => (
+            <div
+              key={i}
+              ref={el => { statRefs.current[i] = el; }}
+              className={`flex flex-col transition-all duration-700 ease-out ${
+                visibleStats[i] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+              }`}
+              style={{ transitionDelay: `${i * 150}ms` }}
+            >
+              {/* Accent bar */}
+              <div className="w-16 sm:w-20 h-[4px] bg-gray-200 mb-3 sm:mb-4 overflow-hidden">
+                <div
+                  className={`h-full bg-[#4C6E4F] transition-all duration-1000 ease-out ${
+                    visibleStats[i] ? 'w-full' : 'w-0'
+                  }`}
+                />
+              </div>
+
+              {/* Number */}
+              <div className="font-poppins font-light text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-none text-[#4C6E4F] mb-2 sm:mb-3">
+                <Counter to={stat.number} suffix={stat.suffix} trigger={visibleStats[i]} duration={1.8} />
+              </div>
+
+              {/* Label */}
+              <p className="text-[#1A201B] text-xs sm:text-sm leading-snug max-w-[160px]">
+                {stat.title}
+              </p>
             </div>
           ))}
         </div>
       </div>
-<div className="max-w-full mx-auto relative px-6 md:px-12 lg:px-20">
-  {/* ===== STATS: 4-COLUMN GRID ON DESKTOP, HORIZONTAL SCROLL ON MOBILE ===== */}
-  <div
-    className="
-      flex justify-start overflow-x-auto gap-8 pb-4
-      snap-x snap-mandatory
-      md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-10 md:overflow-visible md:place-items-center
-      [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]
-      relative
-    "
-  >
-    {stats.map((stat: StatData, index: number) => (
-      <div
-        key={index}
-        ref={(el) => {
-          statRefs.current[index] = el;
-        }}
-        className={`
-          flex flex-col min-w-[200px] snap-start md:min-w-0 md:snap-none
-          transition-all duration-700 ease-out
-          ${visibleStats[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
-        `}
-        style={{ transitionDelay: `${index * 200}ms` }}
-      >
-        {/* Line Divider with animation */}
-        <div className="w-24 sm:w-35 h-[5px] bg-gray-200 mb-5 overflow-hidden relative mx-auto md:mx-0">
-          <div
-            className={`h-full bg-[#4C6E4F] transition-all duration-1000 ease-out ${
-              visibleStats[index] ? 'w-full' : 'w-0'
-            }`}
-          />
-        </div>
-
-        {/* Animated Number */}
-        <div className="font-light text-[32px] sm:text-[44px] md:text-[80px] leading-none text-[#4C6E4F] mb-4 text-center md:text-left">
-          <Counter to={stat.number} suffix={stat.suffix} trigger={visibleStats[index]} duration={1.8} />
-        </div>
-
-        {/* Description Text */}
-        <p className="text-[#1A201B] text-xs sm:text-sm md:text-lg leading-snug max-w-[220px] text-center md:text-left mx-auto md:mx-0">
-          {stat.title}
-        </p>
-      </div>
-    ))}
-  </div>
-
-  {/* Mobile scroll indicator */}
-  <div className="md:hidden flex justify-center mt-6 gap-2">
-    {stats.map((_, index) => (
-      <div
-        key={index}
-        className={`w-2 h-2 rounded-full transition-all duration-300 ${
-          visibleStats[index] ? 'bg-[#4C6E4F] w-4' : 'bg-gray-300'
-        }`}
-      />
-    ))}
-  </div>
-</div>
-        </section>
+    </section>
   );
 }

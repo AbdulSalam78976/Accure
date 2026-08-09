@@ -10,7 +10,7 @@ export default function SecuritySection() {
         
         <div className="relative min-h-[300px] lg:min-h-full">
           <Image
-            src="/images/security.jfif"
+            src="/images/security.jpg"
             alt="Security and Governance"
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
