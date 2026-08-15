@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import HeroBrandBars from '@/components/HeroBrandBars';
 
 // =========================================
 // CONTENT
@@ -249,43 +250,8 @@ export default function TermsAndConditionsPage() {
   const [activeSection, setActiveSection] = useState<string>(sections[0].id);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
-  // Animated brand bars refs
+  // Animated brand bars ref
   const heroRef = useRef<HTMLElement>(null);
-  const bar1Ref = useRef<HTMLDivElement>(null);
-  const bar2Ref = useRef<HTMLDivElement>(null);
-  const bar3Ref = useRef<HTMLDivElement>(null);
-  const [barsAnimated, setBarsAnimated] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !barsAnimated) {
-            if (bar1Ref.current) bar1Ref.current.style.height = '100%';
-            if (bar2Ref.current) bar2Ref.current.style.height = '100%';
-            if (bar3Ref.current) bar3Ref.current.style.height = '100%';
-            setBarsAnimated(true);
-          } else if (!entry.isIntersecting) {
-            if (bar1Ref.current) bar1Ref.current.style.height = '0%';
-            if (bar2Ref.current) bar2Ref.current.style.height = '0%';
-            if (bar3Ref.current) bar3Ref.current.style.height = '0%';
-            setBarsAnimated(false);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    if (heroRef.current) {
-      observer.observe(heroRef.current);
-    }
-
-    return () => {
-      if (heroRef.current) {
-        observer.unobserve(heroRef.current);
-      }
-    };
-  }, [barsAnimated]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -326,47 +292,10 @@ export default function TermsAndConditionsPage() {
         >
           <Navbar />
 
-          {/* ACCURE BRAND BARS */}
-          <div className="block absolute right-0 sm:right-2 lg:right-8 xl:right-12 top-0 h-full pointer-events-none opacity-100">
-            <div className="flex gap-2 sm:gap-3 lg:gap-4 h-full">
-              <div
-                ref={bar1Ref}
-                className="w-14 transition-all duration-1000 ease-out"
-                style={{
-                  height: '0%',
-                  background: 'linear-gradient(180deg,#E0EAD2 0%,#C0D2AC 100%)',
-                  transform: 'skewX(-15deg)',
-                  transformOrigin: 'top',
-                  minHeight: '0%',
-                }}
-              />
-              <div
-                ref={bar2Ref}
-                className="w-14 transition-all duration-1000 ease-out"
-                style={{
-                  height: '0%',
-                  background: 'linear-gradient(180deg,#9DB89A 0%,#7B9E73 100%)',
-                  transform: 'skewX(-15deg)',
-                  transformOrigin: 'top',
-                  minHeight: '0%',
-                }}
-              />
-              <div
-                ref={bar3Ref}
-                className="w-14 transition-all duration-1000 ease-out"
-                style={{
-                  height: '0%',
-                  background: 'linear-gradient(180deg,#4C6E4F 0%,#2E4B30 100%)',
-                  transform: 'skewX(-15deg)',
-                  transformOrigin: 'top',
-                  minHeight: '0%',
-                }}
-              />
-            </div>
-          </div>
+          <HeroBrandBars containerRef={heroRef} />
 
           <div className="relative z-10 w-full max-w-full mx-auto pt-16 md:pt-24">
-            <h2 className="text-white font-poppins text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 max-w-3xl leading-[1.1]">
+            <h2 className="text-white font-poppins text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight mb-6 max-w-3xl leading-[1.1]">
               Terms &amp; Conditions
             </h2>
             <p className="text-white/70 text-base md:text-lg max-w-2xl leading-relaxed">
@@ -429,7 +358,7 @@ export default function TermsAndConditionsPage() {
                       }}
                       className="scroll-mt-24"
                     >
-                      <h2 className="font-poppins font-bold text-xl md:text-2xl text-[#141c0d] mb-4">
+                      <h2 className="font-poppins font-medium text-xl md:text-2xl text-[#141c0d] mb-4">
                         {section.title}
                       </h2>
                       <div

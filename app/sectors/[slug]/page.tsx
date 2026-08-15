@@ -103,7 +103,7 @@ export default async function SectorDetailPage({ params }: PageProps) {
           >
             Our expertise
           </p>
-          <h2 className="font-poppins font-bold text-[24px] sm:text-3xl md:text-4xl text-[#141c0d] tracking-tight mb-12 max-w-xl">
+          <h2 className="font-poppins font-medium text-[24px] sm:text-3xl md:text-4xl text-[#141c0d] tracking-tight mb-12 max-w-xl">
             Our expertise in the {sector.title.toLowerCase().split('&')[0].trim()} sector
           </h2>
 
@@ -122,27 +122,31 @@ export default async function SectorDetailPage({ params }: PageProps) {
           >
             Products &amp; services
           </p>
-          <h2 className="font-poppins font-bold text-[24px] sm:text-3xl md:text-4xl text-[#141c0d] tracking-tight mb-12">
+          <h2 className="font-poppins font-medium text-[24px] sm:text-3xl md:text-4xl text-[#141c0d] tracking-tight mb-12">
             What we offer
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {sector.services.map((service) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 border-t border-l border-[#141c0d]/8">
+            {sector.services.map((service, i) => (
               <div
                 key={service.title}
-                className="group relative flex flex-col bg-[#F3F6EE] border border-[#141c0d]/8 p-8 hover:shadow-[0_16px_40px_-16px_rgba(57,90,58,0.18)] hover:border-[#7B9E73]/40 transition-all duration-300"
+                className="group relative flex flex-col border-r border-b border-[#141c0d]/8 p-8 hover:bg-[#F3F6EE] transition-colors duration-300"
               >
-                <div
-                  className="absolute top-0 left-0 h-[3px] w-0 group-hover:w-full transition-all duration-500"
-                  style={{ background: sector.accent }}
-                />
-                <div
-                  className="w-12 h-12 flex items-center justify-center mb-6 text-2xl"
-                  style={{ background: sector.accent + '18' }}
-                >
-                  <span style={{ color: sector.accent }}>{service.icon}</span>
+                <div className="flex items-center justify-between mb-6">
+                  <div
+                    className="w-11 h-11 flex items-center justify-center border"
+                    style={{ borderColor: sector.accent + '40' }}
+                  >
+                    <service.icon className="w-5 h-5" style={{ color: sector.accent }} />
+                  </div>
+                  <span
+                    className="font-poppins font-bold text-xs"
+                    style={{ color: sector.accent + '60' }}
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
                 </div>
-                <h3 className="font-poppins font-bold text-[#141c0d] text-xl mb-3 leading-snug">
+                <h3 className="font-poppins font-medium text-[#141c0d] text-xl mb-3 leading-snug">
                   {service.title}
                 </h3>
                 <p className="text-sm leading-relaxed text-[#4f564b]">

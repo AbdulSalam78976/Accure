@@ -1,9 +1,15 @@
-import { Landmark, Server, Zap, Droplets, Leaf, type LucideIcon } from 'lucide-react';
+import {
+  Landmark, Server, Zap, Droplets, Leaf,
+  Monitor, KeyRound, Cloud, ShieldCheck, Settings,
+  Activity, Radio, BatteryCharging, Waves, AlertTriangle, Droplet,
+  Sprout, BarChart3, Map,
+  type LucideIcon,
+} from 'lucide-react';
 
 export interface SectorService {
   title: string;
   description: string;
-  icon: string;
+  icon: LucideIcon;
 }
 
 export interface GalleryImage {
@@ -65,17 +71,17 @@ export const sectors: SectorData[] = [
       {
         title: 'Digital Service Delivery',
         description: 'End-to-end design and delivery of citizen-facing digital services, including portals, mobile apps, and API integrations with back-office systems.',
-        icon: '🖥',
+        icon: Monitor,
       },
       {
         title: 'Identity & Access Management',
         description: 'Federated identity platforms, national digital ID integration, MFA, and role-based access control for government agencies and their users.',
-        icon: '🔐',
+        icon: KeyRound,
       },
       {
         title: 'Government Cloud & Data',
         description: 'Sovereign and hybrid cloud architecture, data platform implementation, and governance frameworks tailored to public-sector compliance requirements.',
-        icon: '☁',
+        icon: Cloud,
       },
     ],
     galleryImages: [
@@ -105,7 +111,7 @@ export const sectors: SectorData[] = [
       'We simplify complex technology estates with resilient cloud, networking, and operations strategies that keep business-critical services running.',
     icon: Server,
     image: '/images/IT&Cloud.jpg',
-    introImage: '/images/data-center.jfif',
+    introImage: '/images/data-center.jpg',
     introHeading: 'Infrastructure that scales with your ambition',
     introBody: [
       'Legacy technology estates built for a pre-cloud era are often the single biggest barrier to enterprise agility. Accure works with CIOs and infrastructure leaders to rationalise complex environments — consolidating sprawl, eliminating single points of failure, and creating platform foundations that support rapid application delivery without compromising security or compliance.',
@@ -132,17 +138,17 @@ export const sectors: SectorData[] = [
       {
         title: 'Cloud Architecture & Migration',
         description: 'Hybrid and multi-cloud design, workload migration planning, cost optimisation, and cloud-native refactoring for enterprise and government estates.',
-        icon: '☁',
+        icon: Cloud,
       },
       {
         title: 'Network & Security Infrastructure',
         description: 'Enterprise network design, SD-WAN, zero-trust architecture, and security operations centre integration for complex, distributed environments.',
-        icon: '🔒',
+        icon: ShieldCheck,
       },
       {
         title: '24/7 Managed Support',
         description: 'Round-the-clock monitoring, incident response, and managed operations backed by SLAs — ensuring uptime and performance for business-critical systems.',
-        icon: '⚙',
+        icon: Settings,
       },
     ],
     galleryImages: [
@@ -171,7 +177,7 @@ export const sectors: SectorData[] = [
     description:
       'We help utilities and energy operators gain visibility and resilience through analytics, control systems, and connected field devices.',
     icon: Zap,
-    image: '/images/envoirnment.jpg',
+    image: '/images/Smartgrid.png',
     introImage: '/images/SmartGrid.jpg',
     introHeading: 'Connecting the grid — from generation to the consumer',
     introBody: [
@@ -199,17 +205,17 @@ export const sectors: SectorData[] = [
       {
         title: 'Grid Analytics & Forecasting',
         description: 'AI-powered demand forecasting, grid state estimation, and fault detection systems that give operators the intelligence to act faster and more efficiently.',
-        icon: '⚡',
+        icon: Activity,
       },
       {
         title: 'IoT & SCADA Integration',
         description: 'End-to-end IoT sensor deployment, SCADA integration, and real-time telemetry platforms connecting field assets to operational decision systems.',
-        icon: '📡',
+        icon: Radio,
       },
       {
         title: 'Smart Grid Operations',
         description: 'Distribution management, advanced metering infrastructure, and micro-grid control systems that modernise how utilities operate and serve their customers.',
-        icon: '🔋',
+        icon: BatteryCharging,
       },
     ],
     galleryImages: [
@@ -238,8 +244,8 @@ export const sectors: SectorData[] = [
     description:
       'We combine sensing, analytics, and decision support so water and weather organisations can respond faster and operate with confidence.',
     icon: Droplets,
-    image: '/images/hydromet.jpg',
-    introImage: '/images/water.jpg',
+    image: '/images/hydromet.webp',
+    introImage: '/images/weatherstation.jpg',
     introHeading: 'From raw sensor data to confident operational decisions',
     introBody: [
       'Water and weather organisations sit at the intersection of environmental science and operational technology. They need systems that are scientifically rigorous — capable of ingesting, quality-controlling, and modelling vast sensor datasets — but also operationally robust, with the uptime and alerting reliability that emergency response depends on. Accure builds both layers as an integrated whole.',
@@ -266,17 +272,17 @@ export const sectors: SectorData[] = [
       {
         title: 'Hydromet Sensor Networks',
         description: 'Design, deployment, and integration of hydrological and meteorological sensor networks — from river gauges and rain radars to weather stations and remote telemetry units.',
-        icon: '🌊',
+        icon: Waves,
       },
       {
         title: 'Flood Early Warning Systems',
         description: 'End-to-end early warning systems combining sensor data, hydrological modelling, and multi-channel alerting — delivering actionable warnings to communities and emergency services.',
-        icon: '⚠',
+        icon: AlertTriangle,
       },
       {
         title: 'Water Utility Operations',
         description: 'SCADA and operational technology integration for water treatment, distribution, and wastewater systems — improving visibility, efficiency, and regulatory compliance.',
-        icon: '💧',
+        icon: Droplet,
       },
     ],
     galleryImages: [
@@ -333,17 +339,17 @@ export const sectors: SectorData[] = [
       {
         title: 'Environmental Monitoring Platforms',
         description: 'Integrated platforms combining IoT sensors, satellite data, and analytics to provide continuous environmental monitoring across air, water, soil, and biodiversity indicators.',
-        icon: '🌿',
+        icon: Sprout,
       },
       {
         title: 'ESG Data & Reporting',
         description: 'Data pipelines, dashboards, and reporting tools that automate the collection and disclosure of ESG metrics — built for transparency and audit readiness.',
-        icon: '📊',
+        icon: BarChart3,
       },
       {
         title: 'GIS & Spatial Analytics',
         description: 'GIS-based environmental intelligence platforms that integrate sensor feeds, land-use data, and regulatory mapping to support spatial decision-making.',
-        icon: '🗺',
+        icon: Map,
       },
     ],
     galleryImages: [

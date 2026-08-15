@@ -43,7 +43,7 @@ export default function SectorDetailHero({ title, description, accent, image }: 
           <span className="text-white/70">{title}</span>
         </nav>
 
-        <h1 className="text-white font-poppins text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 max-w-3xl leading-[1.05]">
+        <h1 className="text-white font-poppins text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight mb-6 max-w-3xl leading-[1.05]">
           {title}
         </h1>
 

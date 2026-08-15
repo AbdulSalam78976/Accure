@@ -1,43 +1,17 @@
 ﻿
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { sectors } from '@/lib/sectors-data';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import HeroBrandBars from '@/components/HeroBrandBars';
 
 export default function IndustriesPage() {
   const heroRef = useRef<HTMLElement>(null);
-  const bar1Ref = useRef<HTMLDivElement>(null);
-  const bar2Ref = useRef<HTMLDivElement>(null);
-  const bar3Ref = useRef<HTMLDivElement>(null);
-  const [barsAnimated, setBarsAnimated] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !barsAnimated) {
-            if (bar1Ref.current) bar1Ref.current.style.height = '100%';
-            if (bar2Ref.current) bar2Ref.current.style.height = '100%';
-            if (bar3Ref.current) bar3Ref.current.style.height = '100%';
-            setBarsAnimated(true);
-          } else if (!entry.isIntersecting) {
-            if (bar1Ref.current) bar1Ref.current.style.height = '0%';
-            if (bar2Ref.current) bar2Ref.current.style.height = '0%';
-            if (bar3Ref.current) bar3Ref.current.style.height = '0%';
-            setBarsAnimated(false);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-    if (heroRef.current) observer.observe(heroRef.current);
-    return () => { if (heroRef.current) observer.unobserve(heroRef.current); };
-  }, [barsAnimated]);
 
   return (
     <div className="min-h-screen bg-[#F3F6EE] font-manrope text-[#141c0d]">
@@ -50,23 +24,7 @@ export default function IndustriesPage() {
         ref={heroRef}
         className="w-full text-left relative overflow-hidden bg-gradient-to-br from-[#0B120E] via-[#2E4B30] to-[#0B120E] -mt-24 pt-36 pb-24 px-6 md:px-12 lg:px-20"
       >
-        {/* Brand bars */}
-        <div className="block absolute right-0 sm:right-2 lg:right-8 xl:right-12 top-0 h-full pointer-events-none opacity-100">
-          <div className="flex gap-2 sm:gap-3 lg:gap-4 h-full">
-            {[
-              'linear-gradient(180deg,#E0EAD2 0%,#C0D2AC 100%)',
-              'linear-gradient(180deg,#9DB89A 0%,#7B9E73 100%)',
-              'linear-gradient(180deg,#4C6E4F 0%,#2E4B30 100%)',
-            ].map((bg, i) => (
-              <div
-                key={i}
-                ref={[bar1Ref, bar2Ref, bar3Ref][i]}
-                className="w-14 transition-all duration-1000 ease-out"
-                style={{ height: '0%', background: bg, transform: 'skewX(-15deg)', transformOrigin: 'top' }}
-              />
-            ))}
-          </div>
-        </div>
+        <HeroBrandBars containerRef={heroRef} />
 
         <div className="relative z-10 pt-10 md:pt-16">
           <p className="text-[#95c168] text-sm font-bold uppercase tracking-[0.25em] mb-4">
@@ -119,7 +77,7 @@ export default function IndustriesPage() {
                   {String(idx + 1).padStart(2, '0')}
                 </p>
 
-                <h2 className="font-poppins font-bold text-[22px] sm:text-2xl md:text-3xl text-[#141c0d] tracking-tight leading-snug mb-4">
+                <h2 className="font-poppins font-medium text-[22px] sm:text-2xl md:text-3xl text-[#141c0d] tracking-tight leading-snug mb-4">
                   {sector.title}
                 </h2>
 
@@ -132,7 +90,7 @@ export default function IndustriesPage() {
                   {sector.checklist.map((item) => (
                     <li key={item} className="flex items-start gap-3 text-sm text-[#333]">
                       <span
-                        className="mt-[6px] shrink-0 w-1.5 h-1.5 rounded-full"
+                        className="mt-[6px] shrink-0 w-1.5 h-1.5"
                         style={{ background: sector.accent }}
                       />
                       {item}

@@ -1,9 +1,11 @@
 ﻿'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
+import Image from 'next/image';
 import { ArrowUpRight, Newspaper } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import HeroBrandBars from '@/components/HeroBrandBars';
 import { insights, news } from '@/lib/insights-data';
 
 // All insights shown in the grid
@@ -12,36 +14,6 @@ const restInsights = insights;
 export default function InsightsPage() {
   /* ── Brand-bar hero animation ─────────────────────────────────────────── */
   const heroRef  = useRef<HTMLElement>(null);
-  const bar1Ref  = useRef<HTMLDivElement>(null);
-  const bar2Ref  = useRef<HTMLDivElement>(null);
-  const bar3Ref  = useRef<HTMLDivElement>(null);
-  const [barsAnimated, setBarsAnimated] = useState(false);
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          const animate = e.isIntersecting && !barsAnimated;
-          const reset   = !e.isIntersecting;
-          if (animate) {
-            bar1Ref.current && (bar1Ref.current.style.height = '100%');
-            bar2Ref.current && (bar2Ref.current.style.height = '100%');
-            bar3Ref.current && (bar3Ref.current.style.height = '100%');
-            setBarsAnimated(true);
-          }
-          if (reset) {
-            bar1Ref.current && (bar1Ref.current.style.height = '0%');
-            bar2Ref.current && (bar2Ref.current.style.height = '0%');
-            bar3Ref.current && (bar3Ref.current.style.height = '0%');
-            setBarsAnimated(false);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-    if (heroRef.current) obs.observe(heroRef.current);
-    return () => { if (heroRef.current) obs.unobserve(heroRef.current); };
-  }, [barsAnimated]);
 
   return (
     <div className="min-h-screen bg-[#F3F6EE] font-manrope text-[#141c0d]">
@@ -54,23 +26,7 @@ export default function InsightsPage() {
         ref={heroRef}
         className="w-full relative overflow-hidden bg-gradient-to-br from-[#0B120E] via-[#2E4B30] to-[#0B120E] -mt-24 pt-36 pb-20 px-6 md:px-12 lg:px-20"
       >
-        {/* Brand bars */}
-        <div className="block absolute right-0 sm:right-2 lg:right-8 xl:right-12 top-0 h-full pointer-events-none opacity-100">
-          <div className="flex gap-2 sm:gap-3 lg:gap-4 h-full">
-            {[
-              'linear-gradient(180deg,#E0EAD2 0%,#C0D2AC 100%)',
-              'linear-gradient(180deg,#9DB89A 0%,#7B9E73 100%)',
-              'linear-gradient(180deg,#4C6E4F 0%,#2E4B30 100%)',
-            ].map((bg, i) => (
-              <div
-                key={i}
-                ref={[bar1Ref, bar2Ref, bar3Ref][i]}
-                className="w-14 transition-all duration-1000 ease-out"
-                style={{ height: '0%', background: bg, transform: 'skewX(-15deg)', transformOrigin: 'top' }}
-              />
-            ))}
-          </div>
-        </div>
+        <HeroBrandBars containerRef={heroRef} />
 
         {/* Copy */}
         <div className="relative z-10 pt-10 md:pt-16 pb-16">
@@ -114,36 +70,37 @@ export default function InsightsPage() {
               href={insight.externalHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative flex flex-col bg-white border border-[#141c0d]/10 p-7 hover:shadow-[0_16px_40px_-16px_rgba(57,90,58,0.2)] hover:border-[#7B9E73]/40 transition-all duration-300"
+              className="group relative flex flex-col bg-white border border-[#141c0d]/10 hover:shadow-[0_16px_40px_-16px_rgba(57,90,58,0.2)] hover:border-[#7B9E73]/40 transition-all duration-300"
             >
-              {/* top accent */}
-              <div
-                className="absolute top-0 left-0 h-[3px] w-0 group-hover:w-full transition-all duration-500"
-                style={{ background: insight.accent }}
-              />
-
-              {/* tag + icon row */}
-              <div className="flex items-start justify-between mb-5">
+              <div className="relative w-full aspect-[16/10] overflow-hidden">
+                <Image
+                  src={insight.imageSrc}
+                  alt={insight.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
                 <span
-                  className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-white"
+                  className="absolute top-4 left-4 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-white"
                   style={{ background: insight.accent }}
                 >
                   {insight.tag}
                 </span>
-              
               </div>
 
-              <h3 className="font-poppins font-bold text-[#141c0d] text-lg leading-snug mb-3 group-hover:text-[#395A3A] transition-colors duration-300 flex-1">
-                {insight.title}
-              </h3>
+              <div className="flex flex-col flex-1 p-7">
+                <h3 className="font-poppins font-medium text-[#141c0d] text-lg leading-snug mb-3 group-hover:text-[#395A3A] transition-colors duration-300 flex-1">
+                  {insight.title}
+                </h3>
 
-              <p className="text-sm leading-relaxed text-[#4f564b] mb-5">
-                {insight.description}
-              </p>
+                <p className="text-sm leading-relaxed text-[#4f564b] mb-5">
+                  {insight.description}
+                </p>
 
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.12em] text-[#395A3A] group-hover:gap-2.5 transition-all duration-200">
-                Read report <ArrowUpRight className="w-3.5 h-3.5" />
-              </span>
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.12em] text-[#395A3A] group-hover:gap-2.5 transition-all duration-200">
+                  Read report <ArrowUpRight className="w-3.5 h-3.5" />
+                </span>
+              </div>
             </a>
           ))}
         </div>
@@ -190,7 +147,7 @@ export default function InsightsPage() {
 
               {/* Right content */}
               <div className="flex-1 min-w-0">
-                <h3 className="font-poppins font-bold text-[#141c0d] text-lg md:text-xl leading-snug mb-2 group-hover:text-[#395A3A] transition-colors duration-300">
+                <h3 className="font-poppins font-medium text-[#141c0d] text-lg md:text-xl leading-snug mb-2 group-hover:text-[#395A3A] transition-colors duration-300">
                   {item.headline}
                 </h3>
                 <p className="text-sm leading-relaxed text-[#4f564b]">

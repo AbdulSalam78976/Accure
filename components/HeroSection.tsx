@@ -32,7 +32,7 @@ export default function HeroSection() {
       </video>
 
       {/* Sharp Dark Gradient Overlay for High Text Readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0B120E]/95 via-[#0B120E]/70 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0B120E]/45 via-[#0B120E]/40 to-transparent pointer-events-none" />
 
       {/* Hero Main Content */}
       <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full">
@@ -44,7 +44,7 @@ export default function HeroSection() {
           </h1>
 
           {/* Subtitle (static) */}
-          <p className="font-normal text-sm sm:text-base md:text-lg text-[#C6CCC1] max-w-[560px] leading-relaxed pt-1 drop-shadow">
+          <p className="font-normal text-sm sm:text-base md:text-lg text-white max-w-[560px] leading-relaxed pt-1 drop-shadow">
             {subtitleText}
           </p>
 
@@ -62,7 +62,7 @@ export default function HeroSection() {
             {/* Capabilities Button (Solid Green sharp box) */}
             <Link
               href="/capabilities"
-              className="px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-3.5 font-semibold text-sm sm:text-[15px] md:text-base text-white bg-[#2E4B30] hover:bg-[#a6d278] transition-all shadow-lg hover:shadow-[#95c168]/30 font-bold"
+              className="px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-3.5 font-semibold text-sm sm:text-[15px] md:text-base text-white bg-[#2E4B30] hover:bg-[#a6d278] transition-all shadow-lg hover:shadow-[#95c168]/30"
             >
               Capabilities
             </Link>

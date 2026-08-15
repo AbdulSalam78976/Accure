@@ -1,9 +1,10 @@
 ﻿'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import HeroBrandBars from '@/components/HeroBrandBars';
 import {
   ChevronDown,
   ArrowRight,
@@ -123,43 +124,8 @@ export default function ContactPage() {
     'Turkey',
   ];
 
-  // Animated brand bars refs
+  // Animated brand bars ref
   const sectionRef = useRef<HTMLElement>(null);
-  const bar1Ref = useRef<HTMLDivElement>(null);
-  const bar2Ref = useRef<HTMLDivElement>(null);
-  const bar3Ref = useRef<HTMLDivElement>(null);
-  const [barsAnimated, setBarsAnimated] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !barsAnimated) {
-            if (bar1Ref.current) bar1Ref.current.style.height = '100%';
-            if (bar2Ref.current) bar2Ref.current.style.height = '100%';
-            if (bar3Ref.current) bar3Ref.current.style.height = '100%';
-            setBarsAnimated(true);
-          } else if (!entry.isIntersecting) {
-            if (bar1Ref.current) bar1Ref.current.style.height = '0%';
-            if (bar2Ref.current) bar2Ref.current.style.height = '0%';
-            if (bar3Ref.current) bar3Ref.current.style.height = '0%';
-            setBarsAnimated(false);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, [barsAnimated]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -250,50 +216,13 @@ export default function ContactPage() {
           className="w-full text-left relative overflow-hidden bg-gradient-to-br from-[#0B120E] via-[#2E4B30] to-[#0B120E] -mt-24 pt-36 pb-20 px-6 md:px-12"
         >
 
-          {/* ACCURE BRAND BARS */}
-          <div className="block absolute right-0 sm:right-2 lg:right-8 xl:right-12 top-0 h-full pointer-events-none opacity-100">
-            <div className="flex gap-2 sm:gap-3 lg:gap-4 h-full">
-              <div
-                ref={bar1Ref}
-                className="w-14 transition-all duration-1000 ease-out"
-                style={{
-                  height: '0%',
-                  background: 'linear-gradient(180deg,#E0EAD2 0%,#C0D2AC 100%)',
-                  transform: 'skewX(-15deg)',
-                  transformOrigin: 'top',
-                  minHeight: '0%',
-                }}
-              />
-              <div
-                ref={bar2Ref}
-                className="w-14 transition-all duration-1000 ease-out"
-                style={{
-                  height: '0%',
-                  background: 'linear-gradient(180deg,#9DB89A 0%,#7B9E73 100%)',
-                  transform: 'skewX(-15deg)',
-                  transformOrigin: 'top',
-                  minHeight: '0%',
-                }}
-              />
-              <div
-                ref={bar3Ref}
-                className="w-14 transition-all duration-1000 ease-out"
-                style={{
-                  height: '0%',
-                  background: 'linear-gradient(180deg,#4C6E4F 0%,#2E4B30 100%)',
-                  transform: 'skewX(-15deg)',
-                  transformOrigin: 'top',
-                  minHeight: '0%',
-                }}
-              />
-            </div>
-          </div>
+          <HeroBrandBars containerRef={sectionRef} />
 
           <div className="relative z-10 w-full max-w-full mx-auto pt-16 md:pt-24">
             <p className="text-[#95c168] text-sm font-bold uppercase tracking-[0.25em] mb-4">
               Contact
             </p>
-            <h1 className="text-white font-poppins text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 max-w-3xl leading-[1.08]">
+            <h1 className="text-white font-poppins text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight mb-6 max-w-3xl leading-[1.08]">
               Let's Build <br />Something Great
             </h1>
             <p className="text-white/60 text-base md:text-lg max-w-2xl leading-relaxed">
@@ -534,7 +463,7 @@ export default function ContactPage() {
                           relative text-left transition-all duration-200
                           sm:pl-4
                           px-3.5 py-1.5 sm:px-0 sm:py-0
-                          border sm:border-0 rounded-full sm:rounded-none
+                          border sm:border-0
                           ${isActive
                             ? 'border-[#395A3A] bg-[#395A3A]/5 sm:bg-transparent'
                             : 'border-[#141c0d]/10 sm:border-0 hover:border-[#141c0d]/20'}
@@ -543,7 +472,7 @@ export default function ContactPage() {
                         {/* Active indicator bar, desktop only */}
                         <span
                           className={`
-                            hidden sm:block absolute left-0 top-0 bottom-0 w-[3px] rounded-full
+                            hidden sm:block absolute left-0 top-0 bottom-0 w-[3px]
                             transition-colors duration-300
                             ${isActive ? 'bg-[#395A3A]' : 'bg-transparent'}
                           `}
@@ -567,7 +496,7 @@ export default function ContactPage() {
                 <div className="bg-white border border-[#141c0d]/10 shadow-[0_1px_3px_rgba(20,28,13,0.06)] overflow-hidden">
                   <div className="bg-[#141c0d] px-6 py-4 flex items-center gap-2.5">
                     <MapPin size={15} className="text-[#95c168] flex-shrink-0" />
-                    <h4 className="text-white font-poppins font-bold text-base">
+                    <h4 className="text-white font-poppins font-medium text-base">
                       {activeLocation.region} Office
                     </h4>
                   </div>

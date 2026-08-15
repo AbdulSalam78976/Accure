@@ -208,7 +208,7 @@ export default function Footer( { showConsultationSection }: { showConsultationS
             {/* SECTORS */}
             {/* ========================================= */}
             <div>
-              <h3 className="text-[18px] font-semibold mb-6">
+              <h3 className="text-[18px] font-medium mb-6">
                 Sectors
               </h3>
 
@@ -225,7 +225,7 @@ export default function Footer( { showConsultationSection }: { showConsultationS
             {/* CAPABILITIES */}
             {/* ========================================= */}
             <div>
-              <h3 className="text-[18px] font-semibold mb-6">
+              <h3 className="text-[18px] font-medium mb-6">
                 Capabilities
               </h3>
 
@@ -242,7 +242,7 @@ export default function Footer( { showConsultationSection }: { showConsultationS
             {/* STAY IN TOUCH */}
             {/* ========================================= */}
             <div>
-              <h3 className="text-[18px] font-semibold mb-6">
+              <h3 className="text-[18px] font-medium mb-6">
                 Stay in touch
               </h3>
 

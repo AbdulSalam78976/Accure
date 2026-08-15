@@ -4,7 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
-import { useEffect, useRef, useState } from 'react';
+import HeroBrandBars from '@/components/HeroBrandBars';
+import { useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
@@ -54,29 +55,6 @@ const locations = [
 // ─── PAGE ─────────────────────────────────────────────────────────────────────
 export default function AboutPage() {
   const sectionRef = useRef<HTMLElement>(null);
-  const bar1Ref = useRef<HTMLDivElement>(null);
-  const bar2Ref = useRef<HTMLDivElement>(null);
-  const bar3Ref = useRef<HTMLDivElement>(null);
-  const [barsAnimated, setBarsAnimated] = useState(false);
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !barsAnimated) {
-          if (bar1Ref.current) bar1Ref.current.style.height = '100%';
-          if (bar2Ref.current) bar2Ref.current.style.height = '100%';
-          if (bar3Ref.current) bar3Ref.current.style.height = '100%';
-          setBarsAnimated(true);
-        } else if (!entry.isIntersecting) {
-          [bar1Ref, bar2Ref, bar3Ref].forEach(r => { if (r.current) r.current.style.height = '0%'; });
-          setBarsAnimated(false);
-        }
-      },
-      { threshold: 0.2 }
-    );
-    if (sectionRef.current) obs.observe(sectionRef.current);
-    return () => { if (sectionRef.current) obs.unobserve(sectionRef.current); };
-  }, [barsAnimated]);
 
   return (
     <>
@@ -90,23 +68,7 @@ export default function AboutPage() {
           ref={sectionRef}
           className="w-full text-left relative overflow-hidden bg-gradient-to-br from-[#0B120E] via-[#2E4B30] to-[#0B120E] -mt-24 pt-36 pb-24 px-6 md:px-12 lg:px-20"
         >
-          {/* Animated bars */}
-          <div className="block absolute right-0 sm:right-2 lg:right-8 xl:right-12 top-0 h-full pointer-events-none">
-            <div className="flex gap-2 sm:gap-3 lg:gap-4 h-full">
-              {[
-                { ref: bar1Ref, bg: 'linear-gradient(180deg,#E0EAD2 0%,#C0D2AC 100%)' },
-                { ref: bar2Ref, bg: 'linear-gradient(180deg,#9DB89A 0%,#7B9E73 100%)' },
-                { ref: bar3Ref, bg: 'linear-gradient(180deg,#4C6E4F 0%,#2E4B30 100%)' },
-              ].map(({ ref, bg }, i) => (
-                <div
-                  key={i}
-                  ref={ref}
-                  className="w-14 transition-all duration-1000 ease-out"
-                  style={{ height: '0%', background: bg, transform: 'skewX(-15deg)', transformOrigin: 'top' }}
-                />
-              ))}
-            </div>
-          </div>
+          <HeroBrandBars containerRef={sectionRef} />
 
           <div className="relative z-10 pt-6 md:pt-10">
             <p className="text-[#95c168] text-sm font-bold uppercase tracking-[0.25em] mb-4">
@@ -127,7 +89,7 @@ export default function AboutPage() {
         <section className="w-full bg-[#0B120E] py-20 px-6 md:px-12 lg:px-20">
           <div className="max-w-full mx-auto">
             <div className="mb-14">
-              <h4 className="text-[#95c168] font-semibold tracking-widest text-xl uppercase mb-4">
+              <h4 className="text-[#95c168] font-medium tracking-widest text-xl uppercase mb-4">
                 Our Core Values
               </h4>
               <h2 className="text-white text-[24px] sm:text-3xl md:text-4xl lg:text-5xl leading-tight font-medium max-w-3xl font-poppins">
@@ -142,7 +104,7 @@ export default function AboutPage() {
                   key={title}
                   className="py-8 md:py-0 md:px-10 first:md:pl-0 last:md:pr-0"
                 >
-                  <h3 className="text-[#95c168] text-xl sm:text-2xl font-semibold mb-4 font-poppins">
+                  <h3 className="text-[#95c168] text-xl sm:text-2xl font-medium mb-4 font-poppins">
                     {title}
                   </h3>
                   <p className="text-[#C6CCC1] text-base leading-relaxed font-light">
@@ -173,7 +135,7 @@ export default function AboutPage() {
           <div className="relative z-10 max-w-full mx-auto">
             {/* Header */}
             <div className="text-center mb-16 max-w-3xl mx-auto">
-              <h4 className="text-[#95c168] font-semibold tracking-widest text-xl uppercase mb-4">
+              <h4 className="text-[#95c168] font-medium tracking-widest text-xl uppercase mb-4">
                 The Accure Way
               </h4>
               <h2 className="text-white text-[24px] sm:text-3xl md:text-4xl lg:text-5xl leading-snug font-medium font-poppins">
@@ -214,14 +176,14 @@ export default function AboutPage() {
             <div className="grid grid-cols-5 gap-1.5 sm:gap-4 md:gap-5 items-end">
               {/* COLUMN 1 */}
               <div className="flex flex-col gap-1.5 sm:gap-4 md:gap-5">
-                <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[16/10] w-full">
+                <div className="relative overflow-hidden aspect-[16/10] w-full">
                   <img
                     src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=600"
                     alt="Team pointing at whiteboard"
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[3/4] w-full">
+                <div className="relative overflow-hidden aspect-[3/4] w-full">
                   <img
                     src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600"
                     alt="Professional woman with laptop"
@@ -233,7 +195,7 @@ export default function AboutPage() {
 
               {/* COLUMN 2 */}
               <div className="flex flex-col gap-1.5 sm:gap-4 md:gap-5">
-                <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[3/5] w-full">
+                <div className="relative overflow-hidden aspect-[3/5] w-full">
                   <img
                     src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=600"
                     alt="Team workshop"
@@ -244,7 +206,7 @@ export default function AboutPage() {
 
               {/* COLUMN 3 */}
               <div className="flex flex-col gap-1.5 sm:gap-4 md:gap-5">
-                <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[3/4] w-full">
+                <div className="relative overflow-hidden aspect-[3/4] w-full">
                   <img
                     src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=600"
                     alt="Woman writing on glass"
@@ -257,7 +219,7 @@ export default function AboutPage() {
 
               {/* COLUMN 4 */}
               <div className="flex flex-col gap-1.5 sm:gap-4 md:gap-5">
-                <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[3/5] w-full">
+                <div className="relative overflow-hidden aspect-[3/5] w-full">
                   <img
                     src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=600"
                     alt="Colleagues discussing"
@@ -269,14 +231,14 @@ export default function AboutPage() {
 
               {/* COLUMN 5 */}
               <div className="flex flex-col gap-1.5 sm:gap-4 md:gap-5">
-                <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[3/4] w-full">
+                <div className="relative overflow-hidden aspect-[3/4] w-full">
                   <img
                     src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=600"
                     alt="Woman at laptop"
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[16/10] w-full">
+                <div className="relative overflow-hidden aspect-[16/10] w-full">
                   <img
                     src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=600"
                     alt="Team collaborating"

@@ -133,14 +133,14 @@ export default function Navbar() {
 
               {/* Hover Dropdown Panel */}
               <div className="absolute left-1/2 -translate-x-1/2 top-full pt-2 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 ease-out">
-                <div className="bg-[#0B120E]/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/15 p-2 min-w-[230px] text-left relative overflow-hidden">
-                  <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-32 h-16 bg-[#95c168]/20 blur-xl rounded-full pointer-events-none" />
-                  
+                <div className="bg-[#0B120E]/95 backdrop-blur-2xl shadow-2xl border border-white/15 p-2 min-w-[230px] text-left relative overflow-hidden">
+                  <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-32 h-16 bg-[#95c168]/20 blur-xl pointer-events-none" />
+
                   {sectorLinks.map((item) => (
                     <Link
                       key={item.label}
                       href={item.href}
-                      className={`group/item flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 ${
+                      className={`group/item flex items-center justify-between px-3.5 py-2.5 text-xs font-semibold transition-all duration-200 ${
                         isSubLinkActive(item.href) 
                           ? 'text-[#95c168]' 
                           : 'text-[#C6CCC1] hover:text-white hover:bg-white/10'
@@ -198,7 +198,7 @@ export default function Navbar() {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-expanded={mobileMenuOpen}
-            className="p-2.5 rounded-full bg-[#0B120E]/70 backdrop-blur-md border border-white/20 text-white hover:bg-white/10 transition-all"
+            className="p-2.5 bg-[#0B120E]/70 backdrop-blur-md border border-white/20 text-white hover:bg-white/10 transition-all"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -209,7 +209,7 @@ export default function Navbar() {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden mx-3 sm:mx-4 mt-3 p-5 sm:p-6 rounded-2xl bg-[#0B120E]/95 backdrop-blur-xl border border-white/20 text-white space-y-3 shadow-2xl animate-in fade-in slide-in-from-top-2">
+        <div className="md:hidden mx-3 sm:mx-4 mt-3 p-5 sm:p-6 bg-[#0B120E]/95 backdrop-blur-xl border border-white/20 text-white space-y-3 shadow-2xl animate-in fade-in slide-in-from-top-2">
           
           <Link
             href="/"

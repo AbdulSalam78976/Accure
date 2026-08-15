@@ -94,7 +94,7 @@ export default function HotTopicsSection() {
           {topics.map((topic) => (
             <div key={topic.id} data-topic-card className="shrink-0 snap-start w-[260px] sm:w-[300px] flex flex-col">
               <img src={topic.iconSrc} alt="" aria-hidden="true" className="w-18 h-18 mb-8 object-contain" />
-              <h3 className="font-poppins font-bold text-lg sm:text-xl md:text-2xl leading-snug mb-3 text-[#141c0d]">
+              <h3 className="font-poppins font-medium text-lg sm:text-xl md:text-2xl leading-snug mb-3 text-[#141c0d]">
                 {topic.title}
               </h3>
               <p className="text-sm sm:text-[15px] leading-relaxed text-[#4f564b] mb-6">
@@ -119,7 +119,7 @@ export default function HotTopicsSection() {
             aria-label="Previous topic"
             onClick={() => scroll('left')}
             disabled={!canScrollLeft}
-            className={`p-2 rounded-full transition-all duration-200 ${canScrollLeft ? 'text-[#141c0d] hover:text-[#395A3A] hover:bg-[#f0f4eb]' : 'text-[#141c0d]/20 cursor-not-allowed'}`}
+            className={`p-2 transition-all duration-200 ${canScrollLeft ? 'text-[#141c0d] hover:text-[#395A3A] hover:bg-[#f0f4eb]' : 'text-[#141c0d]/20 cursor-not-allowed'}`}
           >
             <ChevronLeft size={28} strokeWidth={2} />
           </button>
@@ -128,7 +128,7 @@ export default function HotTopicsSection() {
             aria-label="Next topic"
             onClick={() => scroll('right')}
             disabled={!canScrollRight}
-            className={`p-2 rounded-full transition-all duration-200 ${canScrollRight ? 'text-[#141c0d] hover:text-[#395A3A] hover:bg-[#f0f4eb]' : 'text-[#141c0d]/20 cursor-not-allowed'}`}
+            className={`p-2 transition-all duration-200 ${canScrollRight ? 'text-[#141c0d] hover:text-[#395A3A] hover:bg-[#f0f4eb]' : 'text-[#141c0d]/20 cursor-not-allowed'}`}
           >
             <ChevronRight size={28} strokeWidth={2} />
           </button>
